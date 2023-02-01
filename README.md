@@ -5,15 +5,15 @@ Desc:
 
 Contributors:
 
-Ehren Achtermann - ehren1034@gmail.com - @eta55 - <role here>
+Ehren Achtermann - eta55 - ehren1034@gmail.com - @eta55 - <role here>
 
 Trey Fullwood - treyfullwood3@gmail.com - @TreyPilgrim - <role here>
 
-Kennedy Keyes - codingtechken@gmail.com - @CodingKen02 - <role here>
+Kennedy Keyes - kfk38 - kfk38@msstate.edu - @CodingKen02 - <role here>
 
-Austin Wheeler - awheeler1456@gmail.com - @OGkoding - <role here>
+Austin Wheeler - aaw345 - awheeler1456@gmail.com - @OGkoding - <role here>
 
-Ander Talley - andertalley@gmail.com - @MaverickDSmith - <role here>
+Ander Talley - ajt432 - andertalley@gmail.com - @MaverickDSmith - <role here>
 
   
 Languages & Techniques:
