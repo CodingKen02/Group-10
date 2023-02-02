@@ -5,7 +5,7 @@ Desc:
 
 Contributors:
 
-Ehren Achtermann - eta55 - ehren1034@gmail.com - @eta55 - <role here>
+Ehren Achtermann - eta55 - eta55@msstate.edu - @eta55 - <role here>
 
 Trey Fullwood - treyfullwood3@gmail.com - @TreyPilgrim - <role here>
 
