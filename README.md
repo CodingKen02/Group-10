@@ -19,4 +19,4 @@ Ander Talley - ajt432 - andertalley@gmail.com - @MaverickDSmith - CURRENT ROLE: 
 
   
 Languages & Techniques:
-C++, MySQL, Visual Studio Code
+Python, JavaScript, MySQL, Visual Studio Code
