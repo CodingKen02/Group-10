@@ -2,8 +2,25 @@
 
 Desc:
 
-We are making an E-Commerce site designed to let users buy and sell shoes.
+We are making an E-Commerce site designed to let users buy and sell shoes. The website's name is SneakerHeadz.
 
+Objective:
+We want to make a prototype but demo-able website in which users can utilize all of the functions as listed below.
+
+Functions:
+Users should be able to:
+* Register an Account
+* Login/Logout
+* Put up a listing to sell shoes
+* Buy shoes
+* Search for shoes via tags and filters
+* Delete their account
+* Check their order history
+
+Admin users should be able to:
+* Check website transaction history
+* Moderate by deleting inappropiate listings
+* Moderate by banning users who break rules
 
 Contributors:
 
