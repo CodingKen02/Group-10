@@ -28,15 +28,15 @@ We want to make a prototype but demo-able website in which users can utilize all
 
 ## Contributors:
 
-**Ehren Achtermann** - eta55 - eta55@msstate.edu - @eta55 - CURRENT ROLE: SRS #1
+**Ehren Achtermann** - eta55 - eta55@msstate.edu - @eta55 - CURRENT ROLE: Admin Ban & Admin Backlog
 
-**Trey Fullwood** - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: SRS #3
+**Trey Fullwood** - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: Profile Customization & Return
 
-**Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: SRS #2
+**Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: Admin Delete, Delete Account & Logout
 
-**Austin Wheeler** - aaw345 - awheeler1456@gmail.com - @OGkoding - CURRENT ROLE: SRS #2
+**Austin Wheeler** - aaw345 - awheeler1456@gmail.com - @OGkoding - CURRENT ROLE: Searching & Buying
 
-**Ander Talley** - ajt432 - andertalley@gmail.com - @MaverickDSmith - CURRENT ROLE: SRS #3
+**Ander Talley** - ajt432 - andertalley@gmail.com - @MaverickDSmith - CURRENT ROLE: Selling & Login
 
   
 ## Languages & Techniques:
