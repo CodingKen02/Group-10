@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--REQUIRED META TAGS-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+  <title>{% block title %} {% endblock %}</title> <!--serves as a placeholder for a title-->
+</head>
+<body>
+    <div class="container">
+        {% block content %} {% endblock %} <!--placeholder for content in the child template-->
+    </div>
+</body>
+</html>
