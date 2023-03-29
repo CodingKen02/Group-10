@@ -1,10 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title> </title>
-  <link rel="stylesheet" href=""> 
-</head>
-<body>
+{% extends 'base.html' %} <!--inherit the base.html file-->
 
-</body>
-</html>
+{% block content %} <!--whatever code you want to contain for the file-->
+  <h1>{% block title %} Hello, World {% endblock %}</h1> <!--is listed as the title page and heading-->
+{% endblock %}
