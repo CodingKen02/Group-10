@@ -30,7 +30,7 @@ We want to make a prototype but demo-able website in which users can utilize all
 
 **Ehren Achtermann** - eta55 - eta55@msstate.edu - @eta55 - CURRENT ROLE: Backend (more in meeting notes)
 
-**Trey Fullwood** - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: FINISH DIAGRAMS, then Backend
+**Trey Fullwood** - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: Backend (more in meeting notes)
 
 **Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: Frontend (more in meeting notes)
 
@@ -41,4 +41,4 @@ We want to make a prototype but demo-able website in which users can utilize all
   
 ## Languages & Techniques:
 
-Python, JavaScript, MySQL, Visual Studio Code
+Python (Flask), HTML/CSS, JavaScript, MySQL, Visual Studio Code
