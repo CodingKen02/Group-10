@@ -12,5 +12,5 @@ app is a decorater that turns the Python functions into Flask view functions
 @app.route('/')
 
 #function
-def hello():
-    return 'Hello, World!'
+def testing():
+    return 'Testing Flask!'
