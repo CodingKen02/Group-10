@@ -1,8 +1,12 @@
 import re #Importing re package will provide additional arguments from the flask database.
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 #APP IS ACTIVE.
+@app.route('/')
+def payment():
+    return render_template('payment.html')
+
 @app.route('/payment', methods=['POST'])
 def process_payment():
     card_number = request.form['card_number']
@@ -18,7 +22,7 @@ def process_payment():
     if not re.match(r'^\d{2}/\d{2}$', expiration_date):
         return 'Invalid expiration date'
 
-    # Validate card name. 
+    # Validate card name
     if not re.match(r'^[A-Za-z ]+$', card_name):
         return 'Invalid card name'
 
@@ -44,6 +48,8 @@ def process_payment():
         return 'Invalid card type'
 
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3.
-    
 
     return 'Payment processed successfully'
+
+if __name__ == '__main__':
+    app.run(debug=True)
