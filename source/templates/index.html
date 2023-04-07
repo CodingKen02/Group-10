@@ -1,5 +1,21 @@
-{% extends 'base.html' %} <!--inherit the base.html file-->
+{% extends "base.html" %}
 
-{% block content %} <!--whatever code you want to contain for the file-->
-  <h1>{% block title %} Testing Flask {% endblock %}</h1> <!--is listed as the title page and heading-->
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1>Sneakerheadz</h1>
+  <ul>
+    {% for product in products %}
+      <li>
+        <h2><a href="{{ url_for('show_product', product_id=product.id) }}">{{ product.name }}</a></h2>
+        <p>{{ product.description }}</p>
+        <form action="{{ url_for('add_to_cart') }}" method="POST">
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <label>Quantity:</label>
+          <input type="number" name="quantity" min="1" value="1">
+          <button type="submit">Add to Cart</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
