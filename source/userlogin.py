@@ -8,22 +8,23 @@ app.secret_key = '123'
 def userlogin():
     return render_template('userlogin.html')
 
-# This route handles the login form submission
+# Login form submission. Basically, the system will check the database for the entered username and password.
+# Here the parameters are defined. 
 @app.route('/login', methods=['POST'])
 def do_login():
     username = request.form['username']
     password = request.form['password']
     
     # Check if the username and password are valid
-    # Replace this with your own authentication logic
+    # Authentication algorithm would go here, however, I do not think it will be necessary for Sprint 3.
     if username == 'example' and password == 'password':
         session['username'] = username
         return redirect(url_for('home'))
-    else:
+    else: #If the username or password is incorrect, then the user must re-enter. 
         error = 'Invalid username or password. Please try again.'
         return render_template('login.html', error=error)
 
-# This route logs the user out
+# This route logs the user out. The session will end and the user is redirected to the login page. 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
