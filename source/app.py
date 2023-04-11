@@ -21,10 +21,18 @@ products = {
 def index():
     return render_template('index.html')
 
+@app.route('/account')
+def show_user_account():
+    return render_template('account.html')
+
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
     product = products.get(product_id)
     return render_template('product.html', product=product)
+
+@app.route('/listings')
+def show_listings():
+    return render_template('listings.html')
 
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
@@ -40,6 +48,8 @@ def add_to_cart():
         session['cart'][product_id] = quantity
 
     return 'Item added to cart'
+
+
 
 @app.route('/cart')
 def view_cart():
