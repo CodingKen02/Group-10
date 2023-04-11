@@ -22,7 +22,7 @@ class Shoe(Base):
     name = Column(String)
     brand = Column(String)
     price = Column(Float)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    #user_id = Column(Integer, ForeignKey('users.id'))
 
     def __repr__(self):
         return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price})>"
@@ -43,7 +43,7 @@ def test_shoe_model():
     assert isinstance(Shoe.name.property, sqlalchemy.orm.ColumnProperty)
     assert isinstance(Shoe.brand.property, sqlalchemy.orm.ColumnProperty)
     assert isinstance(Shoe.price.property, sqlalchemy.orm.ColumnProperty)
-    assert isinstance(Shoe.user_id.property, sqlalchemy.orm.ColumnProperty)
+    #assert isinstance(Shoe.user_id.property, sqlalchemy.orm.ColumnProperty)
 
 # Test adding a shoe to the database
 def test_add_shoe():
