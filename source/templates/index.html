@@ -6,7 +6,7 @@
   <h1>SneakerHeadz</h1>
   <p>Click on a product below to view more details and add it to your cart:</p>
   <ul>
-    {% for product_id, product in products.items() %}
+    {% for product_id, product in products %}
       <li>
         <h2><a href="{{ url_for('show_product', product_id=product_id) }}">
           {{ product.name }} - {{ product.brand }} - ${{ product.price }}
