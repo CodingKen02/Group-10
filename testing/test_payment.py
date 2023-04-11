@@ -8,7 +8,7 @@ def payment():
     return render_template('payment.html')
 
 @app.route('/payment', methods=['POST'])
-def process_payment():
+def process_payment(card_number, expiration_date, card_name, cvc):
     card_number = request.form['card_number']
     expiration_date = request.form['expiration_date']
     card_name = request.form['card_name']
