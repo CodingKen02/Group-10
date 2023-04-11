@@ -2,6 +2,7 @@ import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 # Create a database engine
 engine = create_engine('sqlite:///sh-inventory.db')
@@ -10,7 +11,7 @@ engine = create_engine('sqlite:///sh-inventory.db')
 Session = sessionmaker(bind=engine)
 
 # Define the database schema
-Base = declarative_base()
+Base = sqlalchemy.orm.declarative_base()
 
 # Define the Shoe model
 class Shoe(Base):
