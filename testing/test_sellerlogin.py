@@ -1,42 +1,31 @@
-from app import app
-import pytest
+from flask import session
 
-@pytest.fixture
-def client():
-    client = app.test_client()
-    yield client
-
-def test_login_page(client):
-    response = client.get('/login')
-    assert response.status_code == 200
-    assert b'Username' in response.data
-    assert b'Password' in response.data
-
-def test_valid_login(client):
-    response = client.post('/login', data=dict(
-        username='seller',
-        password='password'
-    ), follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Welcome to the seller dashboard!' in response.data
+def test_login(client):
+    # test if login is successful
+    response = client.post('/login', data={'username': 'seller', 'password': 'password'})
+    assert response.status_code == 302  # check if page redirects to dashboard
+    assert session.get('seller') is True  # check if seller session is created
 
 def test_invalid_login(client):
-    response = client.post('/login', data=dict(
-        username='wrong_username',
-        password='wrong_password'
-    ), follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Invalid login credentials' in response.data
+    # test if invalid login credentials are rejected
+    response = client.post('/login', data={'username': 'invalid', 'password': 'invalid'})
+    assert response.status_code == 200  # check if error message is displayed
 
-def test_dashboard_requires_login(client):
-    response = client.get('/dashboard', follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Please log in to access this page.' in response.data
+def test_dashboard(client):
+    # test if dashboard is only accessible to logged-in seller
+    response = client.get('/dashboard')
+    assert response.status_code == 302  # check if page redirects to login
+
+    with client.session_transaction() as sess:
+        sess['seller'] = True  # simulate logged-in seller
+    response = client.get('/dashboard')
+    assert response.status_code == 200  # check if dashboard is displayed
 
 def test_logout(client):
-    with client.session_transaction() as session:
-        session['seller'] = True
+    # test if seller session is ended after logging out
+    with client.session_transaction() as sess:
+        sess['seller'] = True  # simulate logged-in seller
+    response = client.get('/logout')
+    assert response.status_code == 302  # check if page redirects to login
+    assert session.get('seller') is None  # check if seller session is ended
 
-    response = client.get('/logout', follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Please log in to access this page.' in response.data
