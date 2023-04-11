@@ -9,10 +9,12 @@ def payment():
 
 @app.route('/payment', methods=['POST'])
 def process_payment(card_number, expiration_date, card_name, cvc):
-    card_number = request.form['card_number']
-    expiration_date = request.form['expiration_date']
-    card_name = request.form['card_name']
-    cvc = request.form['cvc']
+
+    #These are the .html requests
+    #card_number = request.form['card_number']
+    #expiration_date = request.form['expiration_date']
+    #card_name = request.form['card_name']
+    #cvc = request.form['cvc']
 
     # Validate card number
     if not re.match(r'^\d{16}$', card_number):
