@@ -3,11 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1>Sneakerheadz</h1>
+  <h1>SneakerHeadz</h1>
+  <p>Click on a product below to view more details and add it to your cart:</p>
   <ul>
-    {% for product in products %}
+    {% for product_id, product in products.items() %}
       <li>
-        <h2><a href="{{ url_for('show_product', product_id=product.id) }}">{{ product.name }}</a></h2>
+        <h2><a href="{{ url_for('show_product', product_id=product_id) }}">
+          {{ product.name }} - {{ product.brand }} - ${{ product.price }}
+        </a></h2>
         <p>{{ product.description }}</p>
         <form action="{{ url_for('add_to_cart') }}" method="POST">
           <input type="hidden" name="product_id" value="{{ product.id }}">

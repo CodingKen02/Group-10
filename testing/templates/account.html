@@ -3,3 +3,24 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
+<head>
+	<title>User Profile</title>
+</head>
+<body>
+	<h1>User Profile</h1>
+	
+	<!-- Navigation menu -->
+    <p>Note that not all buttons currently have functionality and are here as placeholders</p>
+	<ul>
+        <p>Username: <?php echo $_SESSION['username']; ?></p>
+		<li><a href="logout.html">Logout</a></li>
+		<li><a href="delete.html">Delete Account</a></li>
+		<li><a href="order_history.html">Order History</a></li>
+		<li><a href="user_items.html">Items for Sale</a></li>
+		<li><a href="edit_account.html">Edit Account Details</a></li>
+	</ul>
+	
+	
+	<!-- Other sections (e.g. order history, items for sale) would go here -->
+	
+</body>

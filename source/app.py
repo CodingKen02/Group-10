@@ -1,79 +1,60 @@
-import re # Importing re package will provide additional arguments from the flask database.
+import re
 from flask import Flask, session, request, render_template
-# Additional flask arguments from Flask database create unique product credentials.
+
 app = Flask(__name__)
-# APP IS ACTIVE
 app.secret_key = 'your-secret-key'
 
-# Dummy data for products
 products = {
-    1: {'name': 'Product 1', 'price': 100.99},
-    2: {'name': 'Product 2', 'price': 200.99},
-    3: {'name': 'Product 3', 'price': 300.99},
-    4: {'name': 'Product 4', 'price': 400.99},
-    5: {'name': 'Product 5', 'price': 500.99}
+    1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
+    2: {'name': 'Yeezy Boost 350 V2', 'brand': 'Adidas', 'price': 220.00},
+    3: {'name': 'Retro 1 High OG', 'brand': 'Jordan', 'price': 150.00},
+    4: {'name': 'Chuck Taylor All Star', 'brand': 'Converse', 'price': 50.00},
+    5: {'name': 'Classic Slip-On', 'brand': 'Vans', 'price': 60.00},
+    6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
-# Define a route for the index page
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Define a route for the product page that takes a product ID as a parameter
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
-    # Retrieve product information from database
-    # Product ID can be generated at random. That is optional. 
     product = products.get(product_id)
-
-    # Render the product page template with the retrieved product information
     return render_template('product.html', product=product)
 
-# Define a route for adding items to the cart via a POST request
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
-    # Retrieve the product ID and quantity from the POST request
     product_id = int(request.form['product_id'])
     quantity = int(request.form['quantity'])
 
-    # Product ID generated. The quantity will vary based on product. Would be easier to maintain the same quantity in the database. 
-    # Check if the cart exists in the session
     if 'cart' not in session:
         session['cart'] = {}
 
-    # Add the product and quantity to the cart in the session
     if product_id in session['cart']:
         session['cart'][product_id] += quantity
     else:
         session['cart'][product_id] = quantity
 
-    # Return a success message
     return 'Item added to cart'
 
-# Define a route for the cart page
 @app.route('/cart')
 def view_cart():
     cart_items = []
 
-    # Check if the cart exists in the session
     if 'cart' in session:
-        # This function assigns the product ID, product name, quantity, price, and subtotal which to the view_cart function or "order".
-        # ...
-        # Iterate over the cart items in the session
         for product_id, quantity in session['cart'].items():
-            # Retrieve the product information from the database
             product = products.get(product_id)
             if product:
-                # Create a cart item dictionary with the retrieved product information
                 cart_item = {
                     'product_id': product_id,
                     'product_name': product['name'],
+                    'brand': product['brand'],
                     'quantity': quantity,
                     'price': product['price'],
                     'subtotal': quantity * product['price']
                 }
-                # Add the cart item to the list of cart items
                 cart_items.append(cart_item)
-    # Render the cart page template with the list of cart items
+
     return render_template('cart.html', cart_items=cart_items)
 
 # Define a route for the payment page

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}{{ product.name }}{% endblock %}
+{% block title %}
+  {{ product.name }} - {{ product.brand }}
+{% endblock %}
 
 {% block content %}
-  <h1>{{ product.name }}</h1>
+  <h1>{{ product.name }} - {{ product.brand }}</h1>
   <p>{{ product.description }}</p>
   <p>Price: ${{ product.price }}</p>
   <form action="{{ url_for('add_to_cart') }}" method="POST">
-    <input type="hidden" name="product_id" value="{{ product.id }}">
-    <label>Quantity:</label>
-    <input type="number" name="quantity" min="1" value="1">
+    <input type="hidden" name="product_id" value="{{ product_id }}">
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" value="1" min="1" max="1">
     <button type="submit">Add to Cart</button>
   </form>
 {% endblock %}

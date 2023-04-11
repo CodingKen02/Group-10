@@ -6,11 +6,12 @@ app.secret_key = 'your-secret-key'
 
 # Dummy data for products
 products = {
-    1: {'name': 'Product 1', 'price': 100.99},
-    2: {'name': 'Product 2', 'price': 200.99},
-    3: {'name': 'Product 3', 'price': 300.99},
-    4: {'name': 'Product 4', 'price': 400.99},
-    5: {'name': 'Product 5', 'price': 500.99}
+    1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
+    2: {'name': 'Yeezy Boost 350 V2', 'brand': 'Adidas', 'price': 220.00},
+    3: {'name': 'Retro 1 High OG', 'brand': 'Jordan', 'price': 150.00},
+    4: {'name': 'Chuck Taylor All Star', 'brand': 'Converse', 'price': 50.00},
+    5: {'name': 'Classic Slip-On', 'brand': 'Vans', 'price': 60.00},
+    6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
 
 @app.route('/')
@@ -44,6 +45,7 @@ def view_cart():
                 cart_item = {
                     'product_id': product_id,
                     'product_name': product['name'],
+                    'brand': product['brand'],
                     'quantity': quantity,
                     'price': product['price'],
                     'subtotal': quantity * product['price']
@@ -65,17 +67,18 @@ def test_show_product():
 
 def test_add_to_cart():
     with app.test_client() as client:
-        response = client.post('/add_to_cart', data={'product_id': '1', 'quantity': '2'})
+        response = client.post('/add_to_cart', data={'product_id': '1', 'quantity': '1'})
         assert response.data == b'Item added to cart'
 
 def test_view_cart():
     with app.test_client() as client:
         with client.session_transaction() as session:
-            session['cart'] = {1: 2}
+            session['cart'] = {1: 1}
         response = client.get('/cart')
         assert response.status_code == 200
-        assert b'Product 1' in response.data
+        assert b'Air Max 90' in response.data
+        assert b'Nike' in response.data
+        assert b'120.0' in response.data
 
 if __name__ == '__main__':
     app.run(debug=True)
-

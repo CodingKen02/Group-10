@@ -9,29 +9,33 @@
       <thead>
         <tr>
           <th>Product</th>
+          <th>Brand</th>
           <th>Price</th>
           <th>Quantity</th>
           <th>Subtotal</th>
         </tr>
       </thead>
       <tbody>
-        {% for item in cart_items %}
+        {% for cart_item in cart_items %}
           <tr>
-            <td><a href="{{ url_for('show_product', product_id=item.product_id) }}">{{ item.product_name }}</a></td>
-            <td>${{ item.price }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>${{ item.subtotal }}</td>
+            <td><a href="{{ url_for('show_product', product_id=item.product_id) }}">{{ cart_item.product_name }}</a></td>
+            <td>{{ cart_item.brand }}</td>
+            <td>${{ cart_item.price }}</td>
+            <td>{{ cart_item.quantity }}</td>
+            <td>${{ cart_item.subtotal }}</td>
           </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3">Total:</td>
-          <td>${{ total }}</td>
+          <th colspan="4">Total:</th>
+          <td>${{ sum(cart_item.subtotal for cart_item in cart_items) }}</td>
         </tr>
       </tfoot>
     </table>
-    <a href="{{ url_for('checkout') }}">Checkout</a>
+    <form action="{{ url_for('payment') }}" method="GET">
+      <button type="submit">Checkout</button>
+    </form>
   {% else %}
     <p>Your cart is empty.</p>
   {% endif %}
