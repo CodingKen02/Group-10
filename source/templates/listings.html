@@ -4,5 +4,43 @@
 
 {% block content %}
 
-<h1>Search for shoes here</h1>
-  
+<head>
+	<title>Shoe Listings</title>
+</head>
+<body>
+	<h1>Shoe Listings</h1>
+	
+	<!-- Search bar -->
+	<form method="get">
+		<label for="searchInput">Search for Shoes:</label>
+		<input type="text" id="searchInput" name="search" placeholder="Enter keywords">
+		<input type="submit" value="Search">
+	</form>
+	
+	<hr>
+	
+	<!-- Shoe listings section -->
+	<div>
+		<img src="https://via.placeholder.com/300x200" alt="Shoe 1">
+		<h2>Shoe 1</h2>
+		<p>This is a description for shoe 1.</p>
+		<p>$50</p>
+		<a href="#">Buy Now</a>
+	</div>
+	
+	<div>
+		<img src="https://via.placeholder.com/300x200" alt="Shoe 2">
+		<h2>Shoe 2</h2>
+		<p>This is a description for shoe 2.</p>
+		<p>$75</p>
+		<a href="#">Buy Now</a>
+	</div>
+	
+	<div>
+		<img src="https://via.placeholder.com/300x200" alt="Shoe 3">
+		<h2>Shoe 3</h2>
+		<p>This is a description for shoe 3.</p>
+		<p>$100</p>
+		<a href="#">Buy Now</a>
+	</div>
+</body>
