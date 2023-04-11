@@ -8,7 +8,7 @@
   <ul>
     {% for product_id, product in products %}
       <li>
-        <h2><a href="{{ url_for('show_product', product_id=product_id) }}">
+        <h2><a href="product.html">
           {{ product.name }} - {{ product.brand }} - ${{ product.price }}
         </a></h2>
         <p>{{ product.description }}</p>
