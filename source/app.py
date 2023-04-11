@@ -4,6 +4,8 @@ from flask import Flask, session, request, render_template
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
+
+
 products = {
     1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
     2: {'name': 'Yeezy Boost 350 V2', 'brand': 'Adidas', 'price': 220.00},
@@ -12,6 +14,8 @@ products = {
     5: {'name': 'Classic Slip-On', 'brand': 'Vans', 'price': 60.00},
     6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
+
+
 
 @app.route('/')
 def index():
