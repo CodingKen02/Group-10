@@ -29,7 +29,7 @@
       <tfoot>
         <tr>
           <th colspan="4">Total:</th>
-          <td>${{ sum(cart_item.subtotal for cart_item in cart_items) }}</td>
+          <td>${{ sum(cart_item.subtotal , cart_item in cart_items) }}</td>
         </tr>
       </tfoot>
     </table>

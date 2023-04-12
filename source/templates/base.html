@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}{% endblock %}</title>
-  </head>
-  <body>
-   <header>
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <header>
     <nav>
       <ul>
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('view_cart') }}">Cart</a></li>
-        <li><a href="{{ url_for('show_user_account') }}">User Account</a></li>
-        <li><a href="{{ url_for('show_listings') }}">Site Listings</a></li>
-        
+        <li><a href="/">Home</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <li><a href="/listings">Site Listings</a></li>
+        <li><a href="/register">Sign Up</a> or <a href="/login">Login</a></li>
+        <li><a href="/account">User Account</a></li>
       </ul>
     </nav>
-  </header> 
+  </header>
   <main>
     {% block content %}{% endblock %}
   </main>
-  </body>
-</html>
+</body>
+  </html>
