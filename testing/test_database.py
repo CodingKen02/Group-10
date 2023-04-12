@@ -5,7 +5,7 @@ from path.to.models import Base, User, Shoe
 
 @pytest.fixture
 def session():
-    engine = create_engine('sqlite:///sh-user.db')
+    engine = create_engine('sqlite:///sh-database.db')
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -43,6 +43,3 @@ def test_add_shoe(session):
 def test_query_shoes(session):
     shoes = session.query(Shoe).all()
     assert len(shoes) > 0
-
-engine = create_engine('sqlite:///sh-database.db')
-Base.metadata.create_all(engine)
