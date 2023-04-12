@@ -309,10 +309,6 @@ def process_payment():
     # Return a success message to the user
     return 'Payment processed successfully'
 
-@app.route('/account')
-def account():
-    return render_template('account.html')
-
 @app.route('/logout')
 def logout():
     return render_template('logout.html')
