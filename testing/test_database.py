@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from path.to.models import Base, User, Shoe
+from sh-database.db import Base, User, Shoe
 
 @pytest.fixture
 def session():
