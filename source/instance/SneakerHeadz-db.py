@@ -36,7 +36,7 @@ class Shoe(Base):
     user = relationship(User, backref='shoes')
 
     def __repr__(self):
-        return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user_id}')>"
+        return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
