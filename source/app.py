@@ -286,10 +286,10 @@ def process_payment():
     if not re.match(r'^\d{3}$', cvc):
         return 'Invalid CVC code'
 
-    #Validate card type. I know the credentials look a bit complicated let me explain LOL. 
+    #Validate card type. I know the credentials look a bit complicated let me explain. 
     #Pretty much each parameter will validate the card type based on the first 4 digits in Layman's terms. 
     #The only accepted card types are Visa, Discover, AE, and Discover. We should avoid bank routing for the time being. 
-    #We want to avoid encryption protocols which would make this get nasty.
+    #We want to avoid encryption protocols which would make this unnecsarily complicated.
     card_type = None
     if re.match(r'^4', card_number):
         card_type = 'Visa'
@@ -332,6 +332,21 @@ def order_history():
 @app.route('/user_items')
 def user_items():
     return render_template('user_items.html')
+
+@app.route('/order_overview', methods = ['POST'])
+def order_overview():
+    #Here we have to retrieve all the information that is being stored and display it to the user.
+    #Below is some dummy data. This information needs to actually be pulled from a Database. 
+    user_name = 'apowers123'
+    name = "Austin Powers"
+    account_ID = 'SNKR1782356'
+    shipping_info = '234 CasoPlaza Blvd., 28655, Starkville, MS'
+    payment_info = '************5678'
+    return render_template('order_overview.html')
+
+
+    
+    return render_template('order_confirmation.html')
 
 if __name__ == '__main__':
     with app.app_context():
