@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 # Create a database engine
-engine = create_engine('sqlite:///sh-database.db', echo=True)
+engine = create_engine('sqlite:///sh_database.db', echo=True)
 
 # Create a session factory
 Session = sessionmaker(bind=engine)
