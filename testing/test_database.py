@@ -16,7 +16,7 @@ def db():
     conn.close()
     
 def session():
-    engine = create_engine('sqlite:///sh-database.db')
+    engine = create_engine('sqlite:///account.db')
     db.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
