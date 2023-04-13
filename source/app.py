@@ -1,13 +1,23 @@
 import re
 from flask import Flask, session, request, render_template, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, current_user, LoginManager, UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
+from models import db, login_manager, User
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
-login_manager = LoginManager()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@app.before_first_request
+def create_all():
+    db.create_all()
 
 products = {
     1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
@@ -18,125 +28,49 @@ products = {
     6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
 
-user_database = {
-    1: {'username': 'Ander', 'password': '1234', 'userID': '1'},
-    2: {'username': 'Ehren', 'password': '5678', 'userID': '2'}
-}
 
-class User(UserMixin):
-    user_count = 0
-
-    def __init__(self, username, password, userID=None):
-        self.username = username
-        self.password = password
-        if userID is None:
-            User.user_count += 1
-            self.userID = User.user_count
-        else:
-            self.userID = userID
-
-    def get_user(self):
-        return self.username
-
-    def get_password(self):
-        return self.password
-
-    def get_userid(self):
-        return self.userID
-
-    def get_id(self):
-        return str(self.userID)
-
-    @classmethod
-    def get(cls, username):
-        # In a real app, this would fetch the user's information from a database.
-        # For simplicity, we'll just hardcode a single user here.
-        user_data = get_user_from_db(username)
-        if user_data is not None:
-            return cls(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-        return None
-
-def initialize_users():
-    users = {}
-    for user_id, user_data in user_database.items():
-        user = User(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-        users[user_id] = user
-    return users
-    
-users = initialize_users()
-
-def get_user_from_db(user_id):
-    user = user_database.get(user_id)
-    if user:
-        return User(user['username'], user['password'], user_id)
-    else:
-        return None
-
-@login_manager.user_loader
-def load_user(username):
-    # Load the user from your database
-    user_data = get_user_from_db(username)
-
-    # If the user exists in the database, create and return a User object
-    if user_data:
-        return User(username=user_data['username'], password=user_data['password'])
-
-    # If the user does not exist in the database, return None
-    return None
-
-@login_manager.request_loader
-def load_user_from_request(request):
-    # Check if the request is for an anonymous user
-    if request.args.get('anonymous'):
-        return User(username='anonymous', password=None)
-
-    # Get the user's login credentials from the request
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    # If the username or password is missing, return None
-    if not username or not password:
-        return None
-
-    # Load the user from your database
-    user_data = get_user_from_db(username)
-
-    # If the user exists in the database and the password is correct, create and return a User object
-    if user_data and password == user_data['password']:
-        return User(username=user_data['username'], password=user_data['password'])
-
-    # If the user does not exist in the database or the password is incorrect, return None
-    return None
-
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect('/')
+     
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        for user_id, user_data in user_database.items():
-            if username == user_data['username'] and password == user_data['password']:
-                user = User(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-                login_user(user)
-                return redirect(url_for('show_user_account'))
-        return render_template('login.html', error='Invalid username or password')
-    else:
-        return render_template('login.html', error=None)
+        email = request.form['email']
+        user = User.query.filter_by(email = email).first()
+        if user is not None and user.check_password(request.form['password']):
+            login_user(user)
+            return redirect('/')
+     
+    return render_template('login.html')
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
+    if current_user.is_authenticated:
+        return redirect('/')
+     
     if request.method == 'POST':
+        email = request.form['email']
         username = request.form['username']
         password = request.form['password']
-
-        user = User.get(username)
-        if user:
-            flash('Username already taken')
-        else:
-            new_user = User(username=username, password=password)
-            flash('Registration successful')
-            return redirect(url_for('login'))
-
+ 
+        if User.query.filter_by(email=email).first():
+            return ('Email already Present')
+             
+        user = User(email=email, username=username)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/login')
     return render_template('register.html')
+
+@app.route('/logoutconfirm')
+def logoutconfirm():
+    return render_template('logout.html')
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
 
 @app.route('/account')
 def show_user_account():
@@ -144,18 +78,6 @@ def show_user_account():
         return render_template('account.html')
     else:
         return redirect(url_for('login'))
-
-def upload_image_contents(image):
-    # Uploads the image to cloud storage and returns the URL
-    # Here is an example using Google Cloud Storage and the google-cloud-storage library
-    # We can always change this; it was easy to install though
-    from google.cloud import storage
-    client = storage.Client()
-    bucket_name = 'my-bucket'
-    bucket = client.get_bucket(bucket_name)
-    blob = bucket.blob(image.filename)
-    blob.upload_from_file(image)
-    return f"https://storage.googleapis.com/{bucket_name}/{blob.name}"
 
 def save_listing_to_database(title, description, price, image_urls):
     # Saves the listing to the database
