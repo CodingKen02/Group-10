@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Payment Information</h1>
+  <form method="POST" action="{{ url_for('process_payment') }}">
+    <div class="form-group">
+      <label for="card_number">Card Number:</label>
+      <input type="text" class="form-control" name="card_number" id="card_number" required>
+    </div>
+    <div class="form-group">
+      <label for="expiration_date">Expiration Date:</label>
+      <input type="text" class="form-control" name="expiration_date" id="expiration_date" placeholder="MM/YY" required>
+    </div>
+    <div class="form-group">
+      <label for="card_name">Card Name:</label>
+      <input type="text" class="form-control" name="card_name" id="card_name" required>
+    </div>
+    <div class="form-group">
+      <label for="cvc">CVC Code:</label>
+      <input type="text" class="form-control" name="cvc" size=3 id="cvc" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Payment</button>
+  </form>
+{% endblock %}
+

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1>SneakerHeadz</h1>
+  <p>Click on a product below to view more details and add it to your cart:</p>
+  <ul>
+    {% for product_id, product in products %}
+      <li>
+        <h2><a href="product.html">
+          {{ product.name }} - {{ product.brand }} - ${{ product.price }}
+        </a></h2>
+        <p>{{ product.description }}</p>
+        <form action="{{ url_for('add_to_cart') }}" method="POST">
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <label>Quantity:</label>
+          <input type="number" name="quantity" min="1" value="1">
+          <button type="submit">Add to Cart</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<h1>Create a Sneakerheadz account here</h1>
+
+<p>Please enter a username and password for your account</p>
+
+
+<form action="{{ url_for('register') }}">
+    <div class="container">
+      <hr>
+  
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id="username" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" id="password" required>
+  
+      <label for="psw-repeat"><b>Repeat Password</b></label>
+      <input type="password" placeholder="Repeat Password" name="password-repeat" id="password-repeat" required>
+      <hr>
+  
+      <button type="submit" class="registerbtn">Register</button>
+    </div>
+  
+    <div class="container signin">
+      <p>Already have an account? <a href="login.html">Sign in</a>.</p>
+    </div>
+  </form> 
