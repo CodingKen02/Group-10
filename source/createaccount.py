@@ -29,11 +29,7 @@ def create_account():
         db.session.add(new_account)
         db.session.commit()
         return 'Account created successfully!'
-<<<<<<< HEAD
-    return render_template('create_account.html')
-=======
     return render_template('register.html')
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 
 if __name__ == '__main__':
     with app.app_context():
