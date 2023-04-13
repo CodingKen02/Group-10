@@ -4,8 +4,8 @@
 
 {% block content %}
   <h1>Login to your account</h1>
-  <form action="../userlogin.py">
-    <label for="fullname">Username</label><br />
+  <form method="POST">
+    <label for="username">Username</label><br />
     <input type="text" id="username" name="username"><br />
     <label for="password">Password</label><br />
     <input type="password" id="password" name="password"><br />

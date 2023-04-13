@@ -8,6 +8,8 @@ app.secret_key = 'your-secret-key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.session_protection = "strong"
+app.config['SESSION_TYPE'] = 'filesystem'
 
 products = {
     1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
@@ -23,8 +25,9 @@ user_database = {
     2: {'username': 'Ehren', 'password': '5678', 'userID': '2'}
 }
 
+
 class User(UserMixin):
-    user_count = 0
+    user_count = len(user_database)
 
     def __init__(self, username, password, userID=None):
         self.username = username
@@ -48,12 +51,14 @@ class User(UserMixin):
         return str(self.userID)
 
     @classmethod
-    def get(cls, username):
+    def get(cls, userid):
         # In a real app, this would fetch the user's information from a database.
         # For simplicity, we'll just hardcode a single user here.
-        user_data = get_user_from_db(username)
+        user_data = get_user_from_db(userid)
         if user_data is not None:
-            return cls(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
+            print("Hello!")
+            return cls(username=user_data['username'], password=user_data['password'], userid=userid)
+        print("Oh no!")
         return None
 
 def initialize_users():
@@ -63,26 +68,20 @@ def initialize_users():
         users[user_id] = user
     return users
     
-users = initialize_users()
+initialize_users()
 
-def get_user_from_db(user_id):
-    user = user_database.get(user_id)
+def get_user_from_db(userid):
+    user = user_database.get(userid)
+    print("User?: ", user)
+    print("UserID?: ", userid)
     if user:
-        return User(user['username'], user['password'], user_id)
+        return User(user['username'], user['password'], user['userID'])
     else:
         return None
 
 @login_manager.user_loader
-def load_user(username):
-    # Load the user from your database
-    user_data = get_user_from_db(username)
-
-    # If the user exists in the database, create and return a User object
-    if user_data:
-        return User(username=user_data['username'], password=user_data['password'])
-
-    # If the user does not exist in the database, return None
-    return None
+def load_user(userid):
+    return get_user_from_db(userid)
 
 @login_manager.request_loader
 def load_user_from_request(request):
@@ -108,16 +107,19 @@ def load_user_from_request(request):
     # If the user does not exist in the database or the password is incorrect, return None
     return None
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        print("Username: ", username)
+        print("Password: ", password)
         for user_id, user_data in user_database.items():
             if username == user_data['username'] and password == user_data['password']:
                 user = User(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-                login_user(user)
-                return redirect(url_for('show_user_account'))
+                if (login_user(user)):
+                    print("User Logged in!")
+                return render_template('base.html')
         return render_template('login.html', error='Invalid username or password')
     else:
         return render_template('login.html', error=None)
@@ -213,7 +215,7 @@ class Account(db.Model): #This creates a local database that will store the new 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', current_user=current_user)
 
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
