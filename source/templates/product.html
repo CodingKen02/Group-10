@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+<<<<<<< HEAD
 {% block title %}
   {{ product.name }} - {{ product.brand }}
 {% endblock %}
@@ -15,3 +16,18 @@
     <button type="submit">Add to Cart</button>
   </form>
 {% endblock %}
+=======
+
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+  <h1>{{ product.name }}</h1>
+  <p>{{ product.description }}</p>
+  <p>Price: ${{ product.price }}</p>
+  <form action="{{ url_for('add_to_cart') }}" method="POST">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <label>Quantity:</label>
+    <input type="number" name="quantity" min="1" value="1">
+    <button type="submit">Add to Cart</button>
+  </form>
+{% endblock %}
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f

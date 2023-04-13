@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<<<<<<< HEAD
 <h1>Create a Sneakerheadz account here</h1>
 
 <p>Please enter a username and password for your account</p>
@@ -30,3 +31,20 @@
       <p>Already have an account? <a href="login.html">Sign in</a>.</p>
     </div>
   </form> 
+=======
+<h1>Create a SneakerHeadz account here</h1>
+
+<p>Please enter a username and password for your account.</p>
+
+<form action="" method = "POST">
+  <p>email <input type = "email" name = "email" /></p>
+  <p>Username <input type = "text" name = "username" /></p>
+  <p>password <input type = "password" name = "password" /></p>
+  <p> submit <input type = "submit" value = "Submit" /></p>
+</form>
+
+<h3>Already Have an Account?</h3><br>
+<h3><a href ="{{url_for('login')}}">Login Here</a></h3>
+
+{% endblock %}
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f

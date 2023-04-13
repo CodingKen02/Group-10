@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<<<<<<< HEAD
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -22,3 +23,33 @@
   </main>
   </body>
 </html>
+=======
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <header>
+    {% if current_user.is_authenticated %}
+    <p> Hello, {{current_user.username}}!</p>
+    {% elif current_user.is_anonymous %}
+    <p> Hello, guest!</p>
+    {% endif %}
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <li><a href="/listings">Site Listings</a></li>
+        {% if current_user.is_authenticated %}
+          <li><a href="/account">User Account</a></li>
+          <li><a href="/logoutconfirm">Logout</a></li>
+        {% else %}
+          <li><a href="/login">Login/Register Here</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+  </html>
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f

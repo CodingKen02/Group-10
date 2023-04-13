@@ -6,7 +6,11 @@ app.secret_key = '123'
 # This route displays the login form
 @app.route('/login', methods=['GET'])
 def userlogin():
+<<<<<<< HEAD
     return render_template('userlogin.html')
+=======
+    return render_template('login.html')
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 
 # Login form submission. Basically, the system will check the database for the entered username and password.
 # Here the parameters are defined. 
@@ -35,9 +39,17 @@ def logout():
 def home():
     # Check if the user is logged in
     if 'username' in session:
+<<<<<<< HEAD
         return render_template('home.html')
+=======
+        return render_template('base.html')
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
     else:
         return redirect(url_for('login'))
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     app.run(debug=True)
+=======
+    app.run(debug=True)
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
