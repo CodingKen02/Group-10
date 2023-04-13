@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from sqlalchemy import sessionmaker, create_engine
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager
  
@@ -35,7 +36,14 @@ class Shoe(db.Model):
     def __repr__(self):
         return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
 
- 
+def session():
+    engine = create_engine('sqlite:///accounts.db')
+    db.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    yield session
+    session.close()
+    db.metadata.drop_all(engine) 
  
 @login_manager.user_loader
 def load_user(id):
