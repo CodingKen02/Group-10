@@ -2,7 +2,7 @@ import pytest
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from models import User, Shoe
+from models import User, Shoe, session
 import sqlite3
 
 db = SQLAlchemy()
@@ -14,15 +14,6 @@ def db():
     create_table(conn)
     yield conn
     conn.close()
-    
-def session():
-    engine = create_engine('sqlite:///account.db')
-    db.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    yield session
-    session.close()
-    db.metadata.drop_all(engine)
 
 def test_create_user(session):
     user = User(name='John Doe', email='johndoe@example.com', password='password123')
