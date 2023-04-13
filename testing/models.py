@@ -35,7 +35,10 @@ class Shoe(db.Model):
     def __repr__(self):
         return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
 
+<<<<<<< HEAD
  
+=======
+>>>>>>> 1d0e85417094292ce5e3a4fb3d63717b8dcd5798
 def session():
     engine = create_engine('sqlite:///accounts.db')
     db.metadata.create_all(engine)
@@ -43,8 +46,13 @@ def session():
     session = Session()
     yield session
     session.close()
+<<<<<<< HEAD
     db.metadata.drop_all(engine)
 
+=======
+    db.metadata.drop_all(engine) 
+ 
+>>>>>>> 1d0e85417094292ce5e3a4fb3d63717b8dcd5798
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
