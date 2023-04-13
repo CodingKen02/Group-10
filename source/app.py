@@ -1,48 +1,5 @@
 import re
 from flask import Flask, session, request, render_template, flash, redirect, url_for
-<<<<<<< HEAD
-from flask_login import login_user, current_user, LoginManager, UserMixin
-
-app = Flask(__name__)
-
-app.secret_key = 'your-secret-key'
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-class User(UserMixin):
-    user_count = 0
-
-    def __init__(self, username, password, userID=None):
-        self.username = username
-        self.password = password
-        if userID is None:
-            User.user_count += 1
-            self.userID = User.user_count
-        else:
-            self.userID = userID
-
-    def get_user(self):
-        return self.username
-
-    def get_password(self):
-        return self.password
-
-    def get_userid(self):
-        return self.userID
-
-    def get_id(self):
-        return str(self.userID)
-
-    @classmethod
-    def get(cls, username):
-        # In a real app, this would fetch the user's information from a database.
-        # For simplicity, we'll just hardcode a single user here.
-        user_data = get_user_from_db(username)
-        if user_data is not None:
-            return cls(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-        return None
-=======
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
@@ -61,7 +18,6 @@ login_manager.login_view = 'login'
 @app.before_first_request
 def create_all():
     db.create_all()
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 
 products = {
     1: {'name': 'Air Max 90', 'brand': 'Nike', 'price': 120.00},
@@ -72,101 +28,6 @@ products = {
     6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
 
-<<<<<<< HEAD
-user_database = {
-    1: {'username': 'Ander', 'password': '1234', 'userID': '1'},
-    2: {'username': 'Ehren', 'password': '5678', 'userID': '2'}
-}
-
-def initialize_users():
-    users = {}
-    for user_id, user_data in user_database.items():
-        user = User(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-        users[user_id] = user
-    return users
-    
-users = initialize_users()
-
-
-def get_user_from_db(user_id):
-    user = user_database.get(user_id)
-    if user:
-        return User(user['username'], user['password'], user_id)
-    else:
-        return None
-
-@login_manager.user_loader
-def load_user(username):
-    # Load the user from your database
-    user_data = get_user_from_db(username)
-
-    # If the user exists in the database, create and return a User object
-    if user_data:
-        return User(username=user_data['username'], password=user_data['password'])
-
-    # If the user does not exist in the database, return None
-    return None
-
-@login_manager.request_loader
-def load_user_from_request(request):
-    # Check if the request is for an anonymous user
-    if request.args.get('anonymous'):
-        return User(username='anonymous', password=None)
-
-    # Get the user's login credentials from the request
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    # If the username or password is missing, return None
-    if not username or not password:
-        return None
-
-    # Load the user from your database
-    user_data = get_user_from_db(username)
-
-    # If the user exists in the database and the password is correct, create and return a User object
-    if user_data and password == user_data['password']:
-        return User(username=user_data['username'], password=user_data['password'])
-
-    # If the user does not exist in the database or the password is incorrect, return None
-    return None
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        for user_id, user_data in user_database.items():
-            if username == user_data['username'] and password == user_data['password']:
-                user = User(username=user_data['username'], password=user_data['password'], userID=user_data['userID'])
-                login_user(user)
-                return redirect(url_for('show_user_account'))
-        return render_template('login.html', error='Invalid username or password')
-    else:
-        return render_template('login.html', error=None)
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = User.get(username)
-        if user:
-            flash('Username already taken')
-        else:
-            new_user = User(username=username, password=password)
-            flash('Registration successful')
-            return redirect(url_for('login'))
-
-    return render_template('register.html')
-
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-=======
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -210,7 +71,6 @@ def logoutconfirm():
 def logout():
     logout_user()
     return redirect('/')
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 
 @app.route('/account')
 def show_user_account():
@@ -219,8 +79,6 @@ def show_user_account():
     else:
         return redirect(url_for('login'))
 
-<<<<<<< HEAD
-=======
 def save_listing_to_database(title, description, price, image_urls):
     # Saves the listing to the database
     # Here is an example using SQLAlchemy and a Listing model
@@ -263,8 +121,6 @@ def new_listing():
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
-db = SQLAlchemy(app)
 #THE APP IS RUNNING
 class Account(db.Model): #This creates a local database that will store the new account type in the server.
     id = db.Column(db.Integer, primary_key=True)
@@ -279,19 +135,11 @@ class Account(db.Model): #This creates a local database that will store the new 
 def index():
     return render_template('index.html')
 
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
     product = products.get(product_id)
     return render_template('product.html', product=product)
 
-<<<<<<< HEAD
-@app.route('/listings')
-def show_listings():
-    return render_template('listings.html')
-
-=======
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     product_id = int(request.form['product_id'])
@@ -307,11 +155,6 @@ def add_to_cart():
 
     return 'Item added to cart'
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 @app.route('/cart')
 def view_cart():
     cart_items = []
@@ -363,17 +206,10 @@ def process_payment():
     if not re.match(r'^\d{3}$', cvc):
         return 'Invalid CVC code'
 
-<<<<<<< HEAD
-    #Validate card type. I know the credentials look a bit complicated let me explain LOL. 
-    #Pretty much each parameter will validate the card type based on the first 4 digits in Layman's terms. 
-    #The only accepted card types are Visa, Discover, AE, and Discover. We should avoid bank routing for the time being. 
-    #We want to avoid encryption protocols which would make this get nasty.
-=======
     #Validate card type. I know the credentials look a bit complicated let me explain. 
     #Pretty much each parameter will validate the card type based on the first 4 digits in Layman's terms. 
     #The only accepted card types are Visa, Discover, AE, and Discover. We should avoid bank routing for the time being. 
     #We want to avoid encryption protocols which would make this unnecsarily complicated.
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
     card_type = None
     if re.match(r'^4', card_number):
         card_type = 'Visa'
@@ -392,16 +228,6 @@ def process_payment():
 
     # Return a success message to the user
     return 'Payment processed successfully'
-
-<<<<<<< HEAD
-# Help runs the program in web browser
-if __name__ == '__main__':
-    app.run(debug=True)
-
-=======
-@app.route('/logout')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/listings')
 def listings():
@@ -439,4 +265,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
