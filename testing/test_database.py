@@ -1,9 +1,11 @@
 import pytest
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from SneakerHeadz_db import Base, User, Shoe
+from models import User, Shoe
 import sqlite3
 
+db = SQLAlchemy()
 
 # Fixture to set up a database connection and create a table
 @pytest.fixture
@@ -15,12 +17,12 @@ def db():
     
 def session():
     engine = create_engine('sqlite:///sh-database.db')
-    Base.metadata.create_all(engine)
+    db.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
     yield session
     session.close()
-    Base.metadata.drop_all(engine)
+    db.metadata.drop_all(engine)
 
 def test_create_user(session):
     user = User(name='John Doe', email='johndoe@example.com', password='password123')
