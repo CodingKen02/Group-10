@@ -12,13 +12,9 @@
 	<!-- Navigation menu -->
     <p>Note that not all buttons currently have functionality and are here as placeholders</p>
 	<ul>
-<<<<<<< HEAD
-        <p>Username: <?php echo $_SESSION['username']; ?></p>
-=======
         <p>Username: {{ current_user.username }}</p>
 		<p>Email: {{ current_user.email }}</p>
 		<p>UserID: {{ current_user.id }}</p>
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 		<li><a href="logout.html">Logout</a></li>
 		<li><a href="delete.html">Delete Account</a></li>
 		<li><a href="order_history.html">Order History</a></li>
@@ -30,8 +26,4 @@
 	<!-- Other sections (e.g. order history, items for sale) would go here -->
 	
 </body>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
