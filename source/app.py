@@ -121,8 +121,6 @@ def new_listing():
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
-db = SQLAlchemy(app)
 #THE APP IS RUNNING
 class Account(db.Model): #This creates a local database that will store the new account type in the server.
     id = db.Column(db.Integer, primary_key=True)
@@ -230,10 +228,6 @@ def process_payment():
 
     # Return a success message to the user
     return 'Payment processed successfully'
-
-@app.route('/logout')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/listings')
 def listings():

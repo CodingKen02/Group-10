@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+=======
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
@@ -34,6 +40,7 @@ def save_listing_to_database(title, description, price, image_urls):
     db.session.add(listing)
     db.session.commit()
 
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 @app.route('/seller/listings/new', methods=['GET', 'POST'])
 def new_listing():
     if request.method == 'POST':
@@ -55,6 +62,10 @@ def new_listing():
     else:
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
 if __name__ == '__main__':
     app.run(debug=True)
