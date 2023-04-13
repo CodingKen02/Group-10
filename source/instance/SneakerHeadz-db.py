@@ -2,8 +2,6 @@ import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
 
 # Create a database engine
 engine = create_engine('sqlite:///sh-database.db', echo=True)

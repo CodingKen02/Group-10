@@ -1,9 +1,18 @@
 import pytest
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from instance import Base, User, Shoe
+from SneakerHeadz-db import Base, User, Shoe
+import sqlite3
 
+
+# Fixture to set up a database connection and create a table
 @pytest.fixture
+def db():
+    conn = sqlite3.connect(':memory:')
+    create_table(conn)
+    yield conn
+    conn.close()
+    
 def session():
     engine = create_engine('sqlite:///sh-database.db')
     Base.metadata.create_all(engine)
