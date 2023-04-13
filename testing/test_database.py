@@ -3,18 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from models import User, Shoe, session
-import sqlite3
 
 db = SQLAlchemy()
 
 # Fixture to set up a database connection and create a table
 @pytest.fixture
-def db():
-    conn = sqlite3.connect(':memory:')
-    create_table(conn)
-    yield conn
-    conn.close()
-
 def test_create_user(session):
     user = User(name='John Doe', email='johndoe@example.com', password='password123')
     session.add(user)
