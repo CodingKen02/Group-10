@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from SneakerHeadz-db import Base, User, Shoe
+from SneakerHeadz_db import Base, User, Shoe
 import sqlite3
 
 
