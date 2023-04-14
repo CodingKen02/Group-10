@@ -1,5 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Order Overview:</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Order Overview</title>
+</head>
+<body>
+	<h1>Order Overview</h1>
+	<p>Thank you for your order, {{ username }}!</p>
+	<h2>Shipping Information</h2>
+	<p>Name: {{ name }}</p>
+	<p>Address: {{ address }}</p>
+	<p>City: {{ city }}</p>
+	<p>State: {{ state }}</p>
+	<p>Zip Code: {{ zip_code }}</p>
+	<h2>Payment Information</h2>
+	<p>Card Type: {{ card_type }}</p>
+	<p>Last Four Digits: {{ last_four_digits }}</p>
+	<p>Please confirm that all information is correct.</p>
+	<form action="/place_order" method="POST">
+		<input type="hidden" name="username" value="{{ username }}">
+		<input type="hidden" name="name" value="{{ name }}">
+		<input type="hidden" name="address" value="{{ address }}">
+		<input type="hidden" name="city" value="{{ city }}">
+		<input type="hidden" name="state" value="{{ state }}">
+		<input type="hidden" name="zip_code" value="{{ zip_code }}">
+		<input type="hidden" name="card_type" value="{{ card_type }}">
+		<input type="hidden" name="card_number" value="{{ card_number }}">
+		<button type="submit">Place Order</button>
+	</form>
+</body>
+</html>
+
+
 {% endblock %}
