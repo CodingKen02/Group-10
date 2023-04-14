@@ -43,7 +43,7 @@ def login():
      
     return render_template('login.html')
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register.html', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
         return redirect('/')
@@ -138,7 +138,8 @@ class Account(db.Model): #This creates a local database that will store the new 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    image_url = url_for('static', filename='images/AD.png')
+    return render_template('index.html', image_url=image_url)
 
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
@@ -266,6 +267,10 @@ def order_overview():
     payment_info = '************5678'
     return render_template('order_overview.html')
  
+@app.route('/base')
+def logo():
+    image_url = url_for('static', filename='images/logo.png')
+    return render_template('base.html', image_url=image_url)
 
 if __name__ == '__main__':
     with app.app_context():

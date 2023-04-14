@@ -4,66 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-<title>{% block title %}{% endblock %}</title>
-</head>
-<style> /* -------- CSS starting here---------*/
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #878F80;
-  }
-  
-  li {
-    float: left;
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: 'Open Sans', sans-serif;
-  }
-  
-  li a:hover:not(.active) {
-    background-color: #6b7264;
-  }
-  
-  .active {
-    background-color: #6b7264;
-  }
+    <link href="https://fonts.googleapis.com/css?family=Kanit:bold" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      /* -------- CSS starting here---------*/
+      
+      body {
+        margin: 0;
+        background-color: #E8E9ED;
+      }
 
-  .greeting {
-    text-align: right;
-  }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #878F80;
+        padding: 10px 30px;
+      }
 
-  </style>
-<body>
-  <header>
-    {% if current_user.is_authenticated %}
-    <p class="greeting"> Hello, {{current_user.username}}!</p>
-    {% elif current_user.is_anonymous %}
-    <p class="greeting"> Hello, Guest!</p>
-    {% endif %}
-    <nav>
-      <ul>
-        <li><a href="/">HOME</a></li>
-        <li><a href="/cart">CART</a></li>
-        <li><a href="/listings">SHOE LISTINGS</a></li>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      li {
+        margin-right: 20px;
+      }
+      
+      li:last-child {
+        margin-right: 0;
+      }
+      
+      li a {
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-family: 'Open Sans', sans-serif;
+        padding: 14px 16px;
+        display: block;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      li a:hover {
+        background-color: #6b7264;
+      }
+      
+      .active {
+        background-color: #6b7264;
+      }
+
+      .greeting {
+        text-align: right;
+        color: white;
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      #logo {
+        width: 35px;
+      }
+      main {
+        padding: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+      <nav>
+        <ul>
+          <li><a href="/">HOME</a></li>
+          <li><a href="/cart">CART</a></li>
+          <li><a href="/listings">SHOE LISTINGS</a></li>
+          {% if current_user.is_authenticated %}
+            <li><a href="/account">ACCOUNT</a></li>
+            <li><a href="/logoutconfirm">LOGOUT</a></li>
+          {% else %}
+            <li><a href="/login">LOGIN</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <p class="greeting">
         {% if current_user.is_authenticated %}
-          <li><a href="/account">ACCOUNT</a></li>
-          <li><a href="/logoutconfirm">LOGOUT</a></li>
+          Hello, {{current_user.username}}!
         {% else %}
-          <li><a href="/login">LOGIN/SIGN UP</a></li>
+          Hello, Guest!
         {% endif %}
-      </ul>
-    </nav>
-  </header>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-</body>
-  </html>
+      </p>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
