@@ -20,6 +20,18 @@ class User(UserMixin, db.Model):
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
  
+
+class Shoe(db.Model):
+    __tablename__ = 'shoes'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    brand = db.Column(db.String(80))
+    price = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship(User, backref='shoes')
+
+    def __repr__(self):
+        return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
  
 @login_manager.user_loader
 def load_user(id):
