@@ -31,6 +31,7 @@ class Shoe(db.Model):
     name = db.Column(db.String(100))
     brand = db.Column(db.String(80))
     price = db.Column(db.Integer)
+    description = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(User, backref='shoes')
 
