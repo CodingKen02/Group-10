@@ -176,7 +176,7 @@ def view_cart():
     return render_template('cart.html', cart_items=cart_items)
 
 # Define a route for the payment page
-@app.route('/payment')
+@app.route('/payment.html')
 def payment():
     # Render the payment page template
     return render_template('payment.html')
@@ -233,19 +233,19 @@ def process_payment():
 def listings():
     return render_template('listings.html')
 
-@app.route('/delete')
+@app.route('/delete.html')
 def delete():
     return render_template('delete.html')
 
-@app.route('/edit_account')
+@app.route('/edit_account.html')
 def edit_account():
     return render_template('edit_account.html')
 
-@app.route('/order_history')
+@app.route('/order_history.html')
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items')
+@app.route('/user_items.html')
 def user_items():
     return render_template('user_items.html')
 
