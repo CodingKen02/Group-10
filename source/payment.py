@@ -1,4 +1,4 @@
-import re #Importing re package will provide additional arguments from the flask database.
+import re #Importing re package will provideaddit ional arguments from the flask database.
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
@@ -50,6 +50,21 @@ def process_payment():
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3.
 
     return 'Payment processed successfully'
+
+@app.route ('/shipping_info', methods=['POST'])
+def shipping_info():
+    name = request.form['name']
+    address = request.form['address']
+    city = request.form['city']
+    state = request.form['state']
+    zip_code = request.form['zip_code']
+
+    if not name or not address or not city or not state or not zip_code:
+        return 'Invalid Shipping information. Please try again'
+    else:
+        return 'Shipping updated successfully!'
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
