@@ -176,7 +176,7 @@ def view_cart():
     return render_template('cart.html', cart_items=cart_items)
 
 # Define a route for the payment page
-@app.route('/payment')
+@app.route('/payment.html')
 def payment():
     # Render the payment page template
     return render_template('payment.html')
