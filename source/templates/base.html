@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <title>{% block title %}{% endblock %}</title>
 </head>
 <style> /* -------- CSS starting here---------*/
@@ -24,6 +25,7 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
   }
   
   li a:hover:not(.active) {
@@ -34,27 +36,28 @@
     background-color: #6b7264;
   }
 
-  p {
-    
+  .greeting {
+    text-align: right;
   }
+
   </style>
 <body>
   <header>
     {% if current_user.is_authenticated %}
-    <p> Hello, {{current_user.username}}!</p>
+    <p class="greeting"> Hello, {{current_user.username}}!</p>
     {% elif current_user.is_anonymous %}
-    <p> Hello, guest!</p>
+    <p class="greeting"> Hello, Guest!</p>
     {% endif %}
     <nav>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/cart">Cart</a></li>
-        <li><a href="/listings">Site Listings</a></li>
+        <li><a href="/">HOME</a></li>
+        <li><a href="/cart">CART</a></li>
+        <li><a href="/listings">SHOE LISTINGS</a></li>
         {% if current_user.is_authenticated %}
-          <li><a href="/account">User Account</a></li>
-          <li><a href="/logoutconfirm">Logout</a></li>
+          <li><a href="/account">ACCOUNT</a></li>
+          <li><a href="/logoutconfirm">LOGOUT</a></li>
         {% else %}
-          <li><a href="/login">Login/Register Here</a></li>
+          <li><a href="/login">LOGIN/SIGN UP</a></li>
         {% endif %}
       </ul>
     </nav>
