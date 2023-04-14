@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from models import db, login_manager, User
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
@@ -121,8 +121,7 @@ def new_listing():
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
-db = SQLAlchemy(app)
+
 #THE APP IS RUNNING
 class Account(db.Model): #This creates a local database that will store the new account type in the server.
     id = db.Column(db.Integer, primary_key=True)
@@ -231,9 +230,6 @@ def process_payment():
     # Return a success message to the user
     return 'Payment processed successfully'
 
-@app.route('/logout')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/listings')
 def listings():
