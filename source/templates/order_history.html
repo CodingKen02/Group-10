@@ -7,6 +7,44 @@
 	<title>Order History</title>
 </head>
 <block>
+	// Connect to the database
+	$servername = "localhost";
+	$dbname = "sh-database.db";
+	$conn = new mysqli($servername, $username, $password, $dbname);
 	
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
+	// Query the database to get the order history data
+	$sql = "SELECT * FROM orders";
+	$result = $conn->query($sql);
+	
+	// Create the order history HTML table
+	$html = '<table>';
+	$html .= '<tr><th>Order ID</th><th>Date</th><th>Customer Name</th><th>Product Name</th><th>Price</th></tr>';
+	while($row = $result->fetch_assoc()) {
+		$html .= '<tr>';
+		$html .= '<td>' . $row['order_id'] . '</td>';
+		$html .= '<td>' . $row['date'] . '</td>';
+		$html .= '<td>' . $row['customer_name'] . '</td>';
+		$html .= '<td>' . $row['product_name'] . '</td>';
+		$html .= '<td>' . $row['price'] . '</td>';
+		$html .= '</tr>';
+	}
+	$html .= '</table>';
+	
+	// Create the order history HTML page
+	$page = '<html>';
+	$page .= '<head><title>Order History</title></head>';
+	$page .= '<body>';
+	$page .= '<h1>Order History</h1>';
+	$page .= $html;
+	$page .= '</body>';
+	$page .= '</html>';
+	
+	// Display the order history page
+	echo $page;
 </block>
 {% endblock %}
