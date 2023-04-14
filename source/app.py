@@ -110,17 +110,16 @@ def new_listing():
         images = request.files.getlist('images')
         # Here is where the images are converted to URLS and added to the cloud.
         image_urls = []
-        for image in images:
+        # for image in images:
             # Processing of each individual image.
-            image_url = upload_image_contents(image)
-            image_urls.append(image_url)
+            # image_url = upload_image_contents(image)
+            # image_urls.append(image_url)
         # Here the listing is successfully created. 
         save_listing_to_database(title, description, price, image_urls)
         return redirect('/seller/listings')
     else:
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
-
 
 #THE APP IS RUNNING
 class Account(db.Model): #This creates a local database that will store the new account type in the server.
@@ -231,23 +230,23 @@ def process_payment():
     return 'Payment processed successfully'
 
 
-@app.route('/listings')
+@app.route('/listings.html')
 def listings():
     return render_template('listings.html')
 
-@app.route('/delete')
+@app.route('/delete.html')
 def delete():
     return render_template('delete.html')
 
-@app.route('/edit_account')
+@app.route('/edit_account.html')
 def edit_account():
     return render_template('edit_account.html')
 
-@app.route('/order_history')
+@app.route('/order_history.html')
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items')
+@app.route('/user_items.html')
 def user_items():
     return render_template('user_items.html')
 
