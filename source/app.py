@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from models import db, login_manager, User
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
@@ -181,7 +181,7 @@ def view_cart():
     return render_template('cart.html', cart_items=cart_items)
 
 # Define a route for the payment page
-@app.route('/payment')
+@app.route('/payment.html')
 def payment():
     # Render the payment page template
     return render_template('payment.html')
