@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from models import db, login_manager, User
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
@@ -67,10 +67,15 @@ def register():
 def logoutconfirm():
     return render_template('logout.html')
 
+@app.route('/logout.html')
+def logout2():
+        logout_user()
+        return render_template('logout.html')
+
 @app.route('/logout')
 def logout():
-    logout_user()
-    return redirect('/')
+        logout_user()
+        return redirect('/')
 
 @app.route('/account')
 def show_user_account():
@@ -110,17 +115,16 @@ def new_listing():
         images = request.files.getlist('images')
         # Here is where the images are converted to URLS and added to the cloud.
         image_urls = []
-        for image in images:
+        # for image in images:
             # Processing of each individual image.
-            image_url = upload_image_contents(image)
-            image_urls.append(image_url)
+            # image_url = upload_image_contents(image)
+            # image_urls.append(image_url)
         # Here the listing is successfully created. 
         save_listing_to_database(title, description, price, image_urls)
         return redirect('/seller/listings')
     else:
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
-
 
 #THE APP IS RUNNING
 class Account(db.Model): #This creates a local database that will store the new account type in the server.
@@ -177,7 +181,7 @@ def view_cart():
     return render_template('cart.html', cart_items=cart_items)
 
 # Define a route for the payment page
-@app.route('/payment')
+@app.route('/payment.html')
 def payment():
     # Render the payment page template
     return render_template('payment.html')
@@ -228,27 +232,29 @@ def process_payment():
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
 
     # Return a success message to the user
-    return 'Payment processed successfully'
+    return render_template('process_payment.html')
 
-
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')
 
 @app.route('/listings')
 def listings():
     return render_template('listings.html')
 
-@app.route('/delete')
+@app.route('/delete.html')
 def delete():
     return render_template('delete.html')
 
-@app.route('/edit_account')
+@app.route('/edit_account.html')
 def edit_account():
     return render_template('edit_account.html')
 
-@app.route('/order_history')
+@app.route('/order_history.html')
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items')
+@app.route('/user_items.html')
 def user_items():
     return render_template('user_items.html')
 
