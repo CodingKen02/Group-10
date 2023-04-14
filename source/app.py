@@ -67,10 +67,15 @@ def register():
 def logoutconfirm():
     return render_template('logout.html')
 
+@app.route('/logout.html')
+def logout2():
+        logout_user()
+        return render_template('logout.html')
+
 @app.route('/logout')
 def logout():
-    logout_user()
-    return redirect('/')
+        logout_user()
+        return redirect('/')
 
 @app.route('/account')
 def show_user_account():
@@ -110,17 +115,10 @@ def new_listing():
         images = request.files.getlist('images')
         # Here is where the images are converted to URLS and added to the cloud.
         image_urls = []
-<<<<<<< HEAD
-        #for image in images:
-            # Processing of each individual image.
-           # image_url = upload_image_contents(image)
-           # image_urls.append(image_url)
-=======
         # for image in images:
             # Processing of each individual image.
             # image_url = upload_image_contents(image)
             # image_urls.append(image_url)
->>>>>>> 945df4244e21013dba3f2a0fa0da6c67df6d6612
         # Here the listing is successfully created. 
         save_listing_to_database(title, description, price, image_urls)
         return redirect('/seller/listings')
@@ -237,7 +235,7 @@ def process_payment():
     return 'Payment processed successfully'
 
 
-@app.route('/listings.html')
+@app.route('/listings')
 def listings():
     return render_template('listings.html')
 
