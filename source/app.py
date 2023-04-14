@@ -110,10 +110,10 @@ def new_listing():
         images = request.files.getlist('images')
         # Here is where the images are converted to URLS and added to the cloud.
         image_urls = []
-        for image in images:
+        # for image in images:
             # Processing of each individual image.
-            image_url = upload_image_contents(image)
-            image_urls.append(image_url)
+            # image_url = upload_image_contents(image)
+            # image_urls.append(image_url)
         # Here the listing is successfully created. 
         save_listing_to_database(title, description, price, image_urls)
         return redirect('/seller/listings')
