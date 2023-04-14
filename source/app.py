@@ -232,7 +232,7 @@ def process_payment():
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
 
     # Return a success message to the user
-    return 'Payment processed successfully'
+    return render_template('process_payment.html')
 
 
 @app.route('/listings')
