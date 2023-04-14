@@ -67,10 +67,15 @@ def register():
 def logoutconfirm():
     return render_template('logout.html')
 
+@app.route('/logout.html')
+def logout2():
+        logout_user()
+        return render_template('logout.html')
+
 @app.route('/logout')
 def logout():
-    logout_user()
-    return redirect('/')
+        logout_user()
+        return redirect('/')
 
 @app.route('/account')
 def show_user_account():
@@ -227,10 +232,10 @@ def process_payment():
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
 
     # Return a success message to the user
-    return 'Payment processed successfully'
+    return render_template('process_payment.html')
 
 
-@app.route('/listings.html')
+@app.route('/listings')
 def listings():
     return render_template('listings.html')
 

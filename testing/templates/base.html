@@ -3,35 +3,59 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<<<<<<< HEAD
-    <title>{% block title %}{% endblock %}</title>
-  </head>
-  <body>
-   <header>
-    <nav>
-      <ul>
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('view_cart') }}">Cart</a></li>
-      </ul>
-    </nav>
-  </header> 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-  </body>
-</html>
-=======
 <title>{% block title %}{% endblock %}</title>
 </head>
+<style> /* -------- CSS starting here---------*/
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #878F80;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: #6b7264;
+  }
+  
+  .active {
+    background-color: #6b7264;
+  }
+
+  p {
+    
+  }
+  </style>
 <body>
   <header>
+    {% if current_user.is_authenticated %}
+    <p> Hello, {{current_user.username}}!</p>
+    {% elif current_user.is_anonymous %}
+    <p> Hello, guest!</p>
+    {% endif %}
     <nav>
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/cart">Cart</a></li>
         <li><a href="/listings">Site Listings</a></li>
-        <li><a href="/register">Sign Up</a> or <a href="/login">Login</a></li>
-        <li><a href="/account">User Account</a></li>
+        {% if current_user.is_authenticated %}
+          <li><a href="/account">User Account</a></li>
+          <li><a href="/logoutconfirm">Logout</a></li>
+        {% else %}
+          <li><a href="/login">Login/Register Here</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
@@ -40,4 +64,3 @@
   </main>
 </body>
   </html>
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
