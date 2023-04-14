@@ -3,7 +3,7 @@ from flask import Flask, session, request, render_template, flash, redirect, url
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
-from models import db, login_manager, User
+from models import db, login_manager, User, Shoe, Payment
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'
@@ -194,6 +194,7 @@ def process_payment():
     expiration_date = request.form['expiration_date']
     card_name = request.form['card_name']
     cvc = request.form['cvc']
+    address = request.form['shipping_info']
 #//  $ = active shell environment
     # Validate card number
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
@@ -229,14 +230,15 @@ def process_payment():
     if card_type is None:
         return 'Invalid card type'
 
+    id = current_user.id
+    card = Payment(id = id, card_number = card_number, exp_date = expiration_date, card_name = card_name, cvc = cvc, address = address)
+    db.session.add(card)
+    db.session.commit()
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
 
     # Return a success message to the user
     return render_template('process_payment.html')
 
-@app.route('/logout')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/listings')
 def listings():

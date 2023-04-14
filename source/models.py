@@ -23,18 +23,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User(name='{self.name}', email='{self.email}')>"
 
-class Shoe(db.Model):
-    __tablename__ = 'shoes'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    brand = db.Column(db.String)
-    price = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship(User, backref='shoes')
-
-    def __repr__(self):
-        return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
-
  
 
 class Shoe(db.Model):
@@ -48,6 +36,21 @@ class Shoe(db.Model):
 
     def __repr__(self):
         return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
+
+
+
+class Payment(db.Model):
+    __tablename__ = 'payment'
+    id = db.Column(db.Integer, primary_key=True)
+    card_number = db.Column(db.Integer)
+    exp_date = db.Column(db.String(6))
+    card_name = db.Column(db.String(80))
+    cvc = db.Column(db.Integer)
+    address = db.Column(db.String(200))
+
+    def __repr__(self):
+        return f"<Card(card_number='{self.card_number}', exp_date='{self.exp_date}', card_name='{self.card_name}', cvc='{self.cvc}', address='{self.address}')>"
+
  
 @login_manager.user_loader
 def load_user(id):
