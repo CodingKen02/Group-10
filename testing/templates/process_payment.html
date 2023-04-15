@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Payment Processed Successfully!</h1>
-  <a href="order_overview.html">View Order</a>
+<style>
+  h1, h3, a {
+    font-family: 'Open Sans', sans-serif;
+  }
+</style>
+  <h1>Valid Payment Processed Successfully!</h1>
+  <h3><a href="order_overview.html">View Order</a></h3>
 {% endblock %}
