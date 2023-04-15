@@ -22,7 +22,7 @@
         padding: 10px 30px;
       }
 
-      ul {
+      ul.main-nav {
         list-style-type: none;
         margin: 0;
         padding: 0;
@@ -31,15 +31,15 @@
         align-items: center;
       }
       
-      li {
+      li.main-nav-item {
         margin-right: 20px;
       }
       
-      li:last-child {
+      li.main-nav-item:last-child {
         margin-right: 0;
       }
       
-      li a {
+      li.main-nav-item a {
         color: white;
         text-align: center;
         text-decoration: none;
@@ -49,11 +49,11 @@
         transition: background-color 0.2s ease-in-out;
       }
       
-      li a:hover {
+      li.main-nav-item a:hover {
         background-color: #6b7264;
       }
       
-      .active {
+      .main-nav-item.active {
         background-color: #6b7264;
       }
 
@@ -75,15 +75,15 @@
     <header>
       <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
       <nav>
-        <ul>
-          <li><a href="/">HOME</a></li>
-          <li><a href="/cart">CART</a></li>
-          <li><a href="/listings">LISTINGS</a></li>
+        <ul class="main-nav">
+          <li class="main-nav-item"><a href="/">HOME</a></li>
+          <li class="main-nav-item"><a href="/cart">CART</a></li>
+          <li class="main-nav-item"><a href="/listings">LISTINGS</a></li>
           {% if current_user.is_authenticated %}
-            <li><a href="/account">ACCOUNT</a></li>
-            <li><a href="/logoutconfirm">LOGOUT</a></li>
+            <li class="main-nav-item"><a href="/account">ACCOUNT</a></li>
+            <li class="main-nav-item"><a href="/logoutconfirm">LOGOUT</a></li>
           {% else %}
-            <li><a href="/login">LOGIN</a></li>
+            <li class="main-nav-item"><a href="/login">LOGIN</a></li>
           {% endif %}
         </ul>
       </nav>
@@ -100,3 +100,4 @@
     </main>
   </body>
 </html>
+
