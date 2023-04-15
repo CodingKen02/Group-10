@@ -1,5 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+
+<style>
+	h1, p, h2, li {
+	  font-family: 'Open Sans', sans-serif;
+	}
+  </style>
 <head>
 	<title>Order Confirmation</title>
 </head>
@@ -21,4 +30,5 @@
 		<li>Card Type: {{ card_type }}</li>
 	</ul>
 </body>
-</html>
+
+{% endblock %}

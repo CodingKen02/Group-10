@@ -228,23 +228,27 @@ def process_payment():
 def listings():
     return render_template('listings.html')
 
-@app.route('/delete.html')
+@app.route('/delete')
 def delete():
     return render_template('delete.html')
 
-@app.route('/edit_account.html')
+@app.route('/submit_order.html')
+def submit_order():
+    return render_template('submit_order.html')
+
+@app.route('/edit_account')
 def edit_account():
     return render_template('edit_account.html')
 
-@app.route('/order_history.html')
+@app.route('/order_history')
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items.html')
+@app.route('/user_items')
 def user_items():
     return render_template('user_items.html')
 
-@app.route('/order_overview')
+@app.route('/order_overview.html')
 def order_overview():
    #Here we have to retrieve all the information that is being stored and display it to the user.
     #Below is some example data. This information needs to actually be pulled from the Database. 

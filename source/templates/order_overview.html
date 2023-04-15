@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!DOCTYPE html>
-<html>
+
+<style>
+    h1, p, h2 {
+      font-family: 'Open Sans', sans-serif;
+    }
+</style>
 <head>
 	<title>Order Overview</title>
 </head>
@@ -28,10 +32,9 @@
 		<input type="hidden" name="zip_code" value="{{ zip_code }}">
 		<input type="hidden" name="card_type" value="{{ card_type }}">
 		<input type="hidden" name="card_number" value="{{ card_number }}">
-		<button type="submit">Place Order</button>
+		<a href="submit_order.html"><button>Place Order</button></a> <!---- May need to check this-->
 	</form>
 </body>
-</html>
 
 
 {% endblock %}
