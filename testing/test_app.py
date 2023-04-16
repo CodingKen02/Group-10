@@ -1,6 +1,9 @@
 import re
 from flask import Flask, session, request, render_template
-from source.app import app
+import sys
+sys.path.append("source")
+import app
+
 
 # Additional flask arguments from Flask database create unique product credentials.
 app = Flask(__name__)
