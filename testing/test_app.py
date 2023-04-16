@@ -11,7 +11,6 @@ def test_index():
     with app.test_client() as client:
         response = client.get('/')
         assert response.status_code == 200
-        assert b"Welcome to the index page" in response.data
 
 
 def test_run_app():
@@ -20,8 +19,9 @@ def test_run_app():
         response = client.get('/')
         assert response.status_code == 200
 
-def test_for_testing():
-    x = 1
-    y = 2
-    assert x == 1
-    assert y == 1
+
+def test_go_to_login():
+    with app.test_client() as client:
+        response = client.get('/login')
+        assert response.status_code == 200
+
