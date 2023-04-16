@@ -20,3 +20,8 @@ def test_run_app():
         response = client.get('/')
         assert response.status_code == 200
 
+def test_for_testing():
+    x = 1
+    y = 2
+    assert x == 1
+    assert y == 1

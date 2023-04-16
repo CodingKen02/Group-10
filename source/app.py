@@ -274,12 +274,6 @@ def logo():
     image_url = url_for('static', filename='images/logo.png')
     return render_template('base.html', image_url=image_url)
 
-def test_for_testing():
-    x = 1
-    y = 2
-    assert x == 1
-    assert y == 1
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
