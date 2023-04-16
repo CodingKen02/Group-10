@@ -3,6 +3,7 @@ from flask import Flask, session, request, render_template
 import sys
 sys.path.append("source")
 import app
+import models
 
 
 # Additional flask arguments from Flask database create unique product credentials.
