@@ -3,14 +3,14 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-
+<style>
+  h1, p, button {
+    font-family: 'Open Sans', sans-serif;
+  }
+</style>
 <h1>Logout</h1>
   <p>Are you sure you want to logout?</p>
-    <form action="logout_of_thing_action">
+    <form action="/logout">
         <button type="submit" class="logoutbtn">Logout</button>
-<<<<<<< HEAD
-    </form>
-=======
     </form>
 {% endblock %}
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f

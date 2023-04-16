@@ -3,19 +3,20 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h1>Login to your account</h1>
-  <form action="../userlogin.py">
-    <label for="fullname">Username</label><br />
-    <input type="text" id="username" name="username"><br />
-    <label for="password">Password</label><br />
-    <input type="password" id="password" name="password"><br />
-  
-    <input type="submit" value="Login">
-  </form>
+<style>
+  h1, p, h3, a {
+    font-family: 'Open Sans', sans-serif;
+  }
+</style>
 
-  <a href="register.html">Register here</a>
-<<<<<<< HEAD
-=======
+<h1>User Login</h1>
+<form action="" method = "POST">
+  <p>Email Address: <input type = "email" name = "email" /></p>
+  <p>Password: <input type = "password" name = "password" /></p>
+  <input type = "submit" value = "Login" />
+</form>
+
+<h3>Don't have an account? <a href = "{{url_for('register') }}">Register Here</a></h3>
+
   {% endblock %}
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
   

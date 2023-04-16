@@ -3,6 +3,12 @@
 {% block title %}Cart{% endblock %}
 
 {% block content %}
+
+<style>
+    h1, p {
+      font-family: 'Open Sans', sans-serif;
+    }
+</style>
   <h1>Cart</h1>
   {% if cart_items %}
     <table>
@@ -29,11 +35,7 @@
       <tfoot>
         <tr>
           <th colspan="4">Total:</th>
-<<<<<<< HEAD
-          <td>${{ sum(cart_item.subtotal for cart_item in cart_items) }}</td>
-=======
           <td>${{ sum(cart_item.subtotal , cart_item in cart_items) }}</td>
->>>>>>> 13f81c179aefa0c7a33a6c93d562e9849219f33f
         </tr>
       </tfoot>
     </table>

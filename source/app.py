@@ -3,7 +3,7 @@ from flask import Flask, session, request, render_template, flash, redirect, url
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
-from models import db, login_manager, User
+from models import db, login_manager, User, Shoe, Payment
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'
@@ -43,7 +43,7 @@ def login():
      
     return render_template('login.html')
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register.html', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
         return redirect('/')
@@ -84,25 +84,14 @@ def show_user_account():
     else:
         return redirect(url_for('login'))
 
-def save_listing_to_database(title, description, price, image_urls):
-    # Saves the listing to the database
-    # Here is an example using SQLAlchemy and a Listing model
-    from flask_sqlalchemy import SQLAlchemy
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///listings.db'
-    db = SQLAlchemy(app)
-    class Listing(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        title = db.Column(db.String(80), nullable=False)
-        description = db.Column(db.String(500), nullable=False)
-        price = db.Column(db.Float, nullable=False)
-        image_urls = db.Column(db.String(500), nullable=False)
+def save_listing_to_database(title, brand, description, price, image_urls):
 
-        def __repr__(self):
-            return f'<Listing {self.title}>'
-
-    listing = Listing(title=title, description=description, price=price, image_urls=image_urls)
+    userid = current_user.id
+    user = current_user
+    listing = Shoe(name=title, brand=brand, description=description, price=price, image_urls=image_urls, userid=userid, user=user)
     db.session.add(listing)
     db.session.commit()
+    return True
 
 @app.route('/seller/listings/new', methods=['GET', 'POST'])
 def new_listing():
@@ -113,6 +102,7 @@ def new_listing():
         description = request.form['description']
         price = request.form['price']
         images = request.files.getlist('images')
+        brand = request.form['brand']
         # Here is where the images are converted to URLS and added to the cloud.
         image_urls = []
         # for image in images:
@@ -120,25 +110,19 @@ def new_listing():
             # image_url = upload_image_contents(image)
             # image_urls.append(image_url)
         # Here the listing is successfully created. 
-        save_listing_to_database(title, description, price, image_urls)
-        return redirect('/seller/listings')
+        if (save_listing_to_database(title, brand, description, price, image_urls)):
+            return redirect('/seller/listings')
+    
     else:
         # This will display the updated listing form on the website.
         return render_template('new_listing.html')
 
+
 #THE APP IS RUNNING
-class Account(db.Model): #This creates a local database that will store the new account type in the server.
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    account_type = db.Column(db.String(80), nullable=False)
-
-    def __repr__(self): #Parameters define a unique username.
-        return '<Account %r>' % self.username
-
 @app.route('/')
 def index():
-    return render_template('index.html')
+    image_url = url_for('static', filename='images/AD.png')
+    return render_template('index.html', image_url=image_url)
 
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
@@ -194,6 +178,7 @@ def process_payment():
     expiration_date = request.form['expiration_date']
     card_name = request.form['card_name']
     cvc = request.form['cvc']
+    address = request.form['shipping_info']
 #//  $ = active shell environment
     # Validate card number
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
@@ -229,33 +214,41 @@ def process_payment():
     if card_type is None:
         return 'Invalid card type'
 
+    id = current_user.id
+    card = Payment(id = id, card_number = card_number, exp_date = expiration_date, card_name = card_name, cvc = cvc, address = address)
+    db.session.add(card)
+    db.session.commit()
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
 
     # Return a success message to the user
-    return 'Payment processed successfully'
+    return render_template('process_payment.html')
 
 
 @app.route('/listings')
 def listings():
     return render_template('listings.html')
 
-@app.route('/delete.html')
+@app.route('/delete')
 def delete():
     return render_template('delete.html')
 
-@app.route('/edit_account.html')
+@app.route('/submit_order.html')
+def submit_order():
+    return render_template('submit_order.html')
+
+@app.route('/edit_account')
 def edit_account():
     return render_template('edit_account.html')
 
-@app.route('/order_history.html')
+@app.route('/order_history')
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items.html')
+@app.route('/user_items')
 def user_items():
     return render_template('user_items.html')
 
-@app.route('/order_overview')
+@app.route('/order_overview.html')
 def order_overview():
    #Here we have to retrieve all the information that is being stored and display it to the user.
     #Below is some example data. This information needs to actually be pulled from the Database. 
@@ -266,6 +259,10 @@ def order_overview():
     payment_info = '************5678'
     return render_template('order_overview.html')
  
+@app.route('/base')
+def logo():
+    image_url = url_for('static', filename='images/logo.png')
+    return render_template('base.html', image_url=image_url)
 
 if __name__ == '__main__':
     with app.app_context():
