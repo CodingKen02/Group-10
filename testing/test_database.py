@@ -2,7 +2,7 @@ import pytest
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import sessionmaker
-from models import User, Shoe, session
+from models import User, Shoe
 #import sqlite3
 
 db = SQLAlchemy()
