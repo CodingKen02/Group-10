@@ -228,9 +228,19 @@ def process_payment():
 def listings():
     return render_template('listings.html')
 
+#@app.route('/delete')
+#def delete():
+ #   return render_template('delete.html')
+
+@app.route('/delete.html')
+def delete2():
+        logout_user()
+        return render_template('delete.html')
+
 @app.route('/delete')
 def delete():
-    return render_template('delete.html')
+        logout_user()
+        return redirect('/')
 
 @app.route('/submit_order.html')
 def submit_order():
