@@ -2,8 +2,8 @@ import re
 from flask import Flask, session, request, render_template
 import sys
 sys.path.append("source")
-import app
-import models
+from source.app import app
+from source.models import *
 
 
 # Additional flask arguments from Flask database create unique product credentials.
