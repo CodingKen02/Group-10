@@ -15,12 +15,9 @@ from sqlalchemy.engine import Engine
 from sqlalchemy import event
 
 
-## Database testing will test whether or not we can ##
-## access the various databases and push/pull data  ##
-## in a way that coincides with how the website     ##
-## currently works in its beta state.               ##
 
-## Login/Logout/Registration Testing ##
+
+## This will test our useraccount page ##
 
 
 ## Can we access the register, login, logout, and user account pages?
