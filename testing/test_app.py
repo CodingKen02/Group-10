@@ -24,9 +24,7 @@ def test_run_app():
         response = client.get('/')
         assert response.status_code == 200
 
-@app.route('/login', methods=['GET','POST'])
 def test_go_to_login():
-    with app.test_client() as client:
-        response = client.get('/login')
-        assert response.status_code == 200
+    response = app.test_client().get('/login')
+    assert response.status_code == 200
 
