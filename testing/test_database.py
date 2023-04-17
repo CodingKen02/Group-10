@@ -3,13 +3,12 @@ from flask import Flask, session, request, render_template
 import sys
 sys.path.append("source")
 sys.path.append("source/instance")
-from source.app import app, create_all
+from source.app import app
 from source.models import *
 
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/accounts.db'
 
-create_all()
 
 ## Database testing will test whether or not we can ##
 ## access the various databases and push/pull data  ##
