@@ -37,6 +37,8 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         user = User.query.filter_by(email = email).first()
+        print(email)
+        print(user)
         if user is not None and user.check_password(request.form['password']):
             login_user(user)
             return redirect('/')
