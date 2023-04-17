@@ -48,14 +48,15 @@ def test_user_login():
     with app.app_context():
         client = app.test_client()
         response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
-        assert response.status_code == 200
+        assert response.status_code == 302
 
 ## Testing account page accessS
 def test_user_account_after_login():
-    client = app.test_client()
-    user = User.query.filter_by(email='andertalley@gmail.com').first()
-    login_user(user)
+    with app.app_context():
+        client = app.test_client()
+        user = User.query.filter_by(email='andertalley@gmail.com').first()
+        login_user(user)
 
-    response = client.get('/account')
-    assert response.status_code == 200
-    logout_user()
+        response = client.get('/account')
+        assert response.status_code == 200
+        logout_user()
