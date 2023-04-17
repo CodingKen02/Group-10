@@ -216,7 +216,9 @@ def process_payment():
         return 'Invalid card type'
 
     id = current_user.id
+    print(id)
     card = Payment(id = id, card_number = card_number, exp_date = expiration_date, card_name = card_name, cvc = cvc, address = address)
+    print(card)
     db.session.add(card)
     db.session.commit()
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
