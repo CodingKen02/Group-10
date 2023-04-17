@@ -52,5 +52,6 @@ def test_user_account_after_login():
     response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
     assert response.status_code == 200
 
-    response = client.get('/account')
-    assert response.status_code == 200
+    with client:
+        response = client.get('/account')
+        assert response.status_code == 200
