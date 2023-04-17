@@ -8,8 +8,6 @@ from source.app import app
 from source.models import *
 from source.instance import *
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 ## Database testing will test whether or not we can ##
@@ -20,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 ## Can we access the register, login, logout, and user account pages?
 def test_go_to_login():
-    response = app.test_client().get('/register.html')
+    response = app.get('/register.html')
     assert response.status_code == 200
 
 
