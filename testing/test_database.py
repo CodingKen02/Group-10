@@ -4,12 +4,14 @@ import sys
 sys.path.append("source")
 sys.path.append("source/instance")
 from source.app import app
-from source.models import *
+from source.models import db, create_all
 
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/accounts.db'
 
-db.create_all(app)
+db.init_app(app)
+engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+create_all(engine)
 
 ## Database testing will test whether or not we can ##
 ## access the various databases and push/pull data  ##
