@@ -33,7 +33,8 @@ def test_go_to_logout_confirm():
 
 def test_go_to_user_account_page():
     response = app.test_client().get('/account')
-    assert response.status_code == 200
+    # Not logged in, so should redirect.
+    assert response.status_code == 302
 
 ## Now lets test functionality
 ## The accounts.db should have data already.
@@ -43,4 +44,13 @@ def test_user_login():
     client = app.test_client()
     response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
 
-    assert response.status_code == 302
+    assert response.status_code == 200
+
+## Testing account page access
+def test_user_account_after_login():
+    client = app.test_client()
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 200
+
+    response = client.get('/account')
+    assert response.status_code == 200
