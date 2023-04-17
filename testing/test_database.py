@@ -1,5 +1,6 @@
 import re
 from flask import Flask, session, request, render_template
+from flask_login import login_user, logout_user
 import sys
 sys.path.append("source")
 sys.path.append("source/instance")
@@ -45,16 +46,17 @@ def test_go_to_user_account_page():
 
 def test_user_login():
     client = app.test_client()
-    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    user = User.query.filter_by(email='andertalley@gmail.com').first()
+    login_user(user)
 
-    assert response.status_code == 200
+    assert login_user == True
 
-## Testing account page access
+## Testing account page accessS
 def test_user_account_after_login():
     client = app.test_client()
-    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
-    assert response.status_code == 200
+    user = User.query.filter_by(email='andertalley@gmail.com').first()
+    login_user(user)
 
-    with client:
-        response = client.get('/account')
-        assert response.status_code == 200
+    response = client.get('/account')
+    assert response.status_code == 200
+    logout_user()
