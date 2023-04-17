@@ -180,9 +180,10 @@ def process_payment():
     cvc = request.form['cvc']
     address = request.form['shipping_info']
 #//  $ = active shell environment
-    # Validate card number
+      # Validate card number
+    card_type = None 
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
-        return 'Invalid card number'
+        return 'Order Confirmed. Thank you for your purchase!'
 
     # Validate expiration date. The input will only allow 2 digits (month) separated by a "/" and another 2 digits (year)
     if not re.match(r'^\d{2}/\d{2}$', expiration_date):
@@ -196,23 +197,13 @@ def process_payment():
     if not re.match(r'^\d{3}$', cvc):
         return 'Invalid CVC code'
 
+    if card_type is None:
+         return 'Invalid card information. Please try again.'
     #Validate card type. I know the credentials look a bit complicated let me explain. 
     #Pretty much each parameter will validate the card type based on the first 4 digits in Layman's terms. 
     #The only accepted card types are Visa, Discover, AE, and Discover. We should avoid bank routing for the time being. 
     #We want to avoid encryption protocols which would make this unnecsarily complicated.
-    card_type = None
-    if re.match(r'^4', card_number):
-        card_type = 'Visa'
-    elif re.match(r'^5[1-5]', card_number):
-        card_type = 'MasterCard'
-    elif re.match(r'^3[47]', card_number):
-        card_type = 'American Express'
-    elif re.match(r'^6(?:011|5)', card_number):
-        card_type = 'Discover'
 
-    # If the card type cannot be determined, return an error message
-    if card_type is None:
-        return 'Invalid card type'
 
     id = current_user.id
     card = Payment(id = id, card_number = card_number, exp_date = expiration_date, card_name = card_name, cvc = cvc, address = address)
@@ -222,6 +213,36 @@ def process_payment():
 
     # Return a success message to the user
     return render_template('process_payment.html')
+
+
+shipping_info = {}
+
+@app.route('/shipping_info', methods=['POST'])
+def save_shipping_info():
+    global shipping_info
+    shipping_info['address'] = request.form['address']
+    shipping_info['city'] = request.form['city']
+    shipping_info['state'] = request.form['state']
+    shipping_info['zip_code'] = request.form['zip_code']
+    return redirect('/order_overview')
+
+@app.route('/order_overview', methods=['GET', 'POST'])
+def order_overview():
+    if request.method == 'POST':
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zip_code']
+        expiration_date = request.form['expiration_date']
+        card_number = request.form['card_number'][-4:]  # only keep the last 4 digits
+        return render_template('order_overview.html', address=address,
+                               city=city, state=state, zip_code=zip_code, expiration_date=expiration_date, 
+                               last_four_digits=card_number)
+    else:
+        return redirect(url_for('index'))
+
+
+
 
 
 @app.route('/listings')
@@ -248,16 +269,6 @@ def order_history():
 def user_items():
     return render_template('user_items.html')
 
-@app.route('/order_overview.html')
-def order_overview():
-   #Here we have to retrieve all the information that is being stored and display it to the user.
-    #Below is some example data. This information needs to actually be pulled from the Database. 
-    user_name = 'apowers123'
-    name = "Austin Powers"
-    account_ID = 'SNKR1782356'
-    shipping_info = '234 CasoPlaza Blvd., 28655, Starkville, MS'
-    payment_info = '************5678'
-    return render_template('order_overview.html')
  
 @app.route('/base')
 def logo():
