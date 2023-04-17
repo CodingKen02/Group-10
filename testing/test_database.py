@@ -9,7 +9,7 @@ from source.models import *
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/accounts.db'
 
-db.create_all(app=app)
+db.create_all(app)
 
 ## Database testing will test whether or not we can ##
 ## access the various databases and push/pull data  ##
