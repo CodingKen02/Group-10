@@ -40,6 +40,6 @@ We want to make a prototype but demo-able website in which users can utilize all
 **Ander Talley** - ajt432 - andertalley@gmail.com - @MaverickDSmith - CURRENT ROLE: Full Stack (more in meeting notes)
 
   
-## Languages & Techniques:
+## Languages, Tools & Techniques:
 
-Python (Flask), HTML/CSS, MySQL, Visual Studio Code
+Python (Flask), HTML/CSS, SQLAlchemy, Visual Studio Code, CircleCI, pytest, Heroku
