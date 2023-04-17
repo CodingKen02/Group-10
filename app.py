@@ -183,7 +183,7 @@ def process_payment():
 #//  $ = active shell environment
     # Validate card number
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
-        return 'Invalid card number'
+        return 'Order Confirmed. Thank you for your purchase!'
 
     # Validate expiration date. The input will only allow 2 digits (month) separated by a "/" and another 2 digits (year)
     if not re.match(r'^\d{2}/\d{2}$', expiration_date):
@@ -225,6 +225,34 @@ def process_payment():
     return render_template('process_payment.html')
 
 
+shipping_info = {}
+
+@app.route('/shipping_info', methods=['POST'])
+def save_shipping_info():
+    global shipping_info
+    shipping_info['address'] = request.form['address']
+    shipping_info['city'] = request.form['city']
+    shipping_info['state'] = request.form['state']
+    shipping_info['zip_code'] = request.form['zip_code']
+    return redirect('/order_overview')
+
+@app.route('/order_overview', methods=['GET', 'POST'])
+def order_overview():
+    if request.method == 'POST':
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zip_code']
+        expiration_date = request.form['expiration_date']
+        card_number = request.form['card_number'][-4:]  # only keep the last 4 digits
+        return render_template('order_overview.html', address=address,
+                               city=city, state=state, zip_code=zip_code, expiration_date=expiration_date, 
+                               last_four_digits=card_number)
+    else:
+        return redirect(url_for('index'))
+
+
+
 @app.route('/listings')
 def listings():
     return render_template('listings.html')
@@ -259,17 +287,6 @@ def order_history():
 def user_items():
     return render_template('user_items.html')
 
-@app.route('/order_overview.html')
-def order_overview():
-   #Here we have to retrieve all the information that is being stored and display it to the user.
-    #Below is some example data. This information needs to actually be pulled from the Database. 
-    user_name = 'apowers123'
-    name = "Austin Powers"
-    account_ID = 'SNKR1782356'
-    shipping_info = '234 CasoPlaza Blvd., 28655, Starkville, MS'
-    payment_info = '************5678'
-    return render_template('order_overview.html')
- 
 @app.route('/base')
 def logo():
     image_url = url_for('static', filename='images/logo.png')
