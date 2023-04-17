@@ -13,9 +13,9 @@ app = Flask(__name__)
 
 def test_index():
     # Define a route for the index page
-    with app.test_client() as client:
-        response = client.get('/')
-        assert response.status_code == 200
+    response = app.test_client().get('/')
+
+    assert response.status_code == 200
 
 
 def test_run_app():
