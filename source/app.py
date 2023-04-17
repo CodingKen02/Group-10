@@ -37,8 +37,9 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         user = User.query.filter_by(email = email).first()
+        print(email)
         if user is not None and user.check_password(request.form['password']):
-            login_user(user)
+            login_user(user)         
             return redirect('/')
      
     return render_template('login.html')
@@ -249,9 +250,19 @@ def order_overview():
 def listings():
     return render_template('listings.html')
 
+#@app.route('/delete')
+#def delete():
+ #   return render_template('delete.html')
+
+@app.route('/delete.html')
+def delete2():
+        logout_user()
+        return render_template('delete.html')
+
 @app.route('/delete')
 def delete():
-    return render_template('delete.html')
+        logout_user()
+        return redirect('/')
 
 @app.route('/submit_order.html')
 def submit_order():
