@@ -1,13 +1,31 @@
 import re
+import pytest
 from flask import Flask, session, request, render_template
 from flask_login import login_user, logout_user
 import sys
+import os
+import tempfile
 sys.path.append("source")
 sys.path.append("source/instance")
 from source.app import app
 from source.models import *
 from source.instance import *
 
+
+@pytest.fixture
+def db_handle():
+    db_fd, db_fname = tempfile.mkstemp()
+    app.app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_fname
+    app.app.config["TESTING"] = True
+    
+    with app.app.app_context():
+        app.db.create_all()
+        
+    yield app.db
+    
+    app.db.session.remove()
+    os.close(db_fd)
+    os.unlink(db_fname)
 
 
 ## Database testing will test whether or not we can ##
@@ -49,12 +67,14 @@ def test_user_login():
 
 ## Testing account page accessS
 def test_user_account_after_login():
-    response = app.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    client = app.test_client()
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
     assert response.status_code == 302
 
-    # Log in user before making GET request to /account
-    user = User.query.filter_by(email='andertalley@gmail.com').first()
-    login_user(user)
+    with client:
+        # Log in user before making GET request to /account
+        user = User.query.filter_by(email='andertalley@gmail.com').first()
+        login_user(user)
 
-    response = app.get('/account')
-    assert response.status_code == 200
+        response = client.get('/account')
+        assert response.status_code == 200
