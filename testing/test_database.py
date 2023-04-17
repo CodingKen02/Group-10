@@ -45,11 +45,10 @@ def test_go_to_user_account_page():
 ## Lets test with one of our existing users (myself, Ander)
 
 def test_user_login():
-    client = app.test_client()
-    user = User.query.filter_by(email='andertalley@gmail.com').first()
-    login_user(user)
-
-    assert login_user == True
+    with app.app_context():
+        client = app.test_client()
+        response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+        assert response.status_code == 200
 
 ## Testing account page accessS
 def test_user_account_after_login():
