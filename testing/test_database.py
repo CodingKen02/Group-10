@@ -44,21 +44,17 @@ def test_go_to_user_account_page():
 ## Lets test with one of our existing users (myself, Ander)
 
 def test_user_login():
-    with app.app_context():
-        client = app.test_client()
-        response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
-        assert response.status_code == 302
+    response = app.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 302
 
 ## Testing account page accessS
 def test_user_account_after_login():
-    client = app.test_client()
-    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    response = app.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
     assert response.status_code == 302
 
-    with client:
-        # Log in user before making GET request to /account
-        user = User.query.filter_by(email='andertalley@gmail.com').first()
-        login_user(user)
+    # Log in user before making GET request to /account
+    user = User.query.filter_by(email='andertalley@gmail.com').first()
+    login_user(user)
 
-        response = client.get('/account')
-        assert response.status_code == 200
+    response = app.get('/account')
+    assert response.status_code == 200
