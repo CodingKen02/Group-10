@@ -3,3 +3,4 @@ SQLAlchemy==2.0.9
 pytest==7.3.0
 Flask-SQLAlchemy
 Flask-Login
+gunicorn==20.1.0
