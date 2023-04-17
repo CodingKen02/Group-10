@@ -12,15 +12,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-
-@app.before_first_request
-def create_all():
-    db.create_all()
-
-
 ## Database testing will test whether or not we can ##
 ## access the various databases and push/pull data  ##
 ## in a way that coincides with how the website     ##
