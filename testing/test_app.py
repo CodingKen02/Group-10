@@ -6,9 +6,7 @@ from source.app import app
 from source.models import *
 
 
-# Additional flask arguments from Flask database create unique product credentials.
-app = Flask(__name__)
-# APP IS ACTIVE
+
 
 
 def test_index():
