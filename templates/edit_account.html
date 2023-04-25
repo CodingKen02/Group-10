@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<style>
+    h1, p, h3 {
+      font-family: 'Open Sans', sans-serif;
+    }
+</style>
+<head>
+	<title>Edit Account Details</title>
+</head>
+<block>
+	<h1 style="text-align: center;">Edit Account Details</h1>
+	<p style="text-align: center;">Now Editing Account Details</p>
+	<br>
+	<form>
+		<h3>Personal Information</h3>
+		<p>Biography (A little bit about you):</p>
+		<input type="text" name="biography">
+		<input type="submit" value="Submit">
+		
+		<h3>Billing Information</h3>
+		<p>Credit Card Number:</p>
+		<input type="text" name="credit_card_number">
+		
+		<p>CVV:</p>
+		<input type="text" name="cvv">
+		
+		<p>Expiration Date:</p>
+		<input type="text" name="expiration_date">
+		<input type="submit" value="Submit">
+		
+		<h3>Password and Security</h3>
+		<p>Current Password:</p>
+		<input type="password" name="current_password">
+		
+		<p>New Password:</p>
+		<input type="password" name="new_password">
+		
+		<input type="submit" value="Submit">
+	</form>
+</block>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<style>
+    h1, p, li a {
+      font-family: 'Open Sans', sans-serif;;
+    }
+
+    /* CSS for user profile buttons */
+    .user-profile {
+        display: flex;
+        flex-direction: row;
+		justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-profile ul {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        gap: 10px;
+    }
+
+    .user-profile li {
+        margin: 0;
+    }
+
+    .user-profile li a {
+        display: block;
+        background-color: #6b7264;
+        color: white;
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
+        text-decoration: none;
+        padding: 14px 16px;
+        border-radius: 5px;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .user-profile li a:hover {
+        background-color: #51574F;
+    }
+</style>
+
+<head>
+    <title>User Profile</title>
+</head>
+
+<body>
+    <div class="user-profile">
+        <h1>User Profile</h1>
+        
+        <!-- Navigation menu -->
+        <ul>
+            <li><a href="/logoutconfirm">Logout</a></li>
+            <li><a href="/delete.html">Delete Account</a></li>
+            <li><a href="/order_history">Order History</a></li>
+            <li><a href="/user_items">Items for Sale</a></li>
+            <li><a href="/start_listing">Make a Listing</a></li>
+            <li><a href="/edit_account">Edit Account Details</a></li>
+        </ul>
+	</div>
+        
+        <!-- Create a container for the user info elements -->
+            <br><p>Username: {{ current_user.username }}</p>
+            <p>Email: {{ current_user.email }}</p>
+            <p>UserID: {{ current_user.id }}</p>
+    
+    <!-- Other sections (e.g. order history, items for sale) would go here -->
+    
+</body>
+{% endblock %}
+
+
+
+
