@@ -136,7 +136,7 @@
     margin: 10px;
     font-family: 'Open Sans', sans-serif;
   }
-  .card button a {
+  .card a {
     text-decoration: none;
     color: white;
 }
@@ -170,7 +170,7 @@
     display: block;
     font-size: 16px;
     margin: 20px auto 0;
-    width: 80%;
+    width: 240px;
     border-radius: 5px;
     transition: background-color 0.2s ease-in-out;
   }
@@ -200,7 +200,9 @@
       <p>Condition: {{ shoe.condition }}</p>
       <p>Description: {{ shoe.description }}</p>
       <p class="price">Price: ${{ shoe.price }}</p>
-      <button><a href="payment.html">Add to Cart</a></button>
+      <a href="payment.html">
+        <button>Add to Cart</button>
+      </a>
     </div>
   {% endfor %}
   </div>
