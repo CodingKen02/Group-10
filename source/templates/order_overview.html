@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    h1, p, h2 {
+      font-family: 'Open Sans', sans-serif;
+    }
+</style>
+<head>
+	<title>Order Overview</title>
+</head>
+<body>
+	<h1>Order Overview</h1>
+	<p>Thank you for shopping with SneakerHeadz!</p>
+	<h2>Shipping Information</h2>
+	<p>Address: {{ address }}</p>
+	<p>City: {{ city }}</p>
+	<p>State: {{ state }}</p>
+	<p>Zip Code: {{ zip_code }}</p>
+	<h2>Payment Information</h2>
+	<p>Credit Card ending in: {{ last_four_digits }}</p>
+	<p>Please verify that all information is correct.</p>
+	<form action="/process_payment" method="POST">
+		<input type="hidden" name="username" value="{{ username }}">
+		<input type="hidden" name="name" value="{{ name }}">
+		<input type="hidden" name="address" value="{{ address }}">
+		<input type="hidden" name="city" value="{{ city }}">
+		<input type="hidden" name="state" value="{{ state }}">
+		<input type="hidden" name="zip_code" value="{{ zip_code }}">
+		<input type="hidden" name="card_type" value="{{ card_type }}">
+		<input type="hidden" name="card_name" value="{{ card_name }}">
+		<input type="hidden" name="card_number" value="{{ card_number }}">
+		<input type="hidden" name="expiration_date" value="{{ expiration_date }}">
+		<input type="hidden" name="cvc" value="{{ cvc }}">
+		<input type="hidden" name="shipping_info" value="{{ shipping_info }}">
+		<button type="submit">Place Order</button>
+	
+	</form>
+</body>
+
+
+{% endblock %}
