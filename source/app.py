@@ -123,6 +123,40 @@ def show_user_account():
     else:
         return redirect(url_for('login'))
 
+def save_listing_to_database(title, brand, description, price, image_urls):
+
+    userid = current_user.id
+    user = current_user
+    listing = Shoe(name=title, brand=brand, description=description, price=price, image_urls=image_urls, userid=userid, user=user)
+    db.session.add(listing)
+    db.session.commit()
+    return True
+
+@app.route('/seller/listings/new', methods=['GET', 'POST'])
+def new_listing():
+    if request.method == 'POST':
+        # Processes form data and saves new listings to database.
+        # This function creates all the parameter that the seller must enter to create the listing. 
+        title = request.form['title']
+        description = request.form['description']
+        price = request.form['price']
+        images = request.files.getlist('images')
+        brand = request.form['brand']
+        # Here is where the images are converted to URLS and added to the cloud.
+        image_urls = []
+        # for image in images:
+            # Processing of each individual image.
+            # image_url = upload_image_contents(image)
+            # image_urls.append(image_url)
+        # Here the listing is successfully created. 
+        if (save_listing_to_database(title, brand, description, price, image_urls)):
+            return redirect('/seller/listings')
+    
+    else:
+        # This will display the updated listing form on the website.
+        return render_template('new_listing.html')
+
+
 #THE APP IS RUNNING
 @app.route('/')
 def index():
@@ -132,10 +166,10 @@ def index():
                   'description': shoe.description, 'price': shoe.price, 'image': shoe.image} for shoe in shoes]
     return render_template('index.html', shoes=shoe_info, image_url=image_url)
 
-#@app.route('/product/<int:product_id>')
-#def show_product(product_id):
-    #product = products.get(product_id)
-    #return render_template('product.html', product=product)
+@app.route('/product/<int:product_id>')
+def show_product(product_id):
+    product = products.get(product_id)
+    return render_template('product.html', product=product)
 
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
@@ -190,7 +224,7 @@ def process_payment():
 #//  $ = active shell environment
     # Validate card number
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
-        return 'Order Confirmed. Thank you for your purchase!' #fix error
+        return 'Order Confirmed. Thank you for your purchase!'
 
     # Validate expiration date. The input will only allow 2 digits (month) separated by a "/" and another 2 digits (year)
     if not re.match(r'^\d{2}/\d{2}$', expiration_date):
@@ -260,9 +294,9 @@ def order_overview():
 
 
 
-#@app.route('/listings')
-#def listings():
-    #return render_template('listings.html')
+@app.route('/listings')
+def listings():
+    return render_template('listings.html')
 
 #@app.route('/delete')
 #def delete():
