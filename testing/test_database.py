@@ -46,7 +46,7 @@ def test_go_to_user_account_page():
 
 ## Our Database Tables that currently function are User and Payment, so lets test that.
 
-## Since user is already existing in the database, user gets returned to the registration page. UPDATE: test function is not working possibly due to new database/data.
+## Since user is already existing in the database, user gets returned to the registration page. UPDATE: test function is failing possibly due to new database/data for Sprint 4.
 #def test_user_registration():
     #client = app.test_client()
     #response = client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
