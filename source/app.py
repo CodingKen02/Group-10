@@ -32,7 +32,7 @@ products = {
     6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
 
-@app.route('/listings2', methods=['GET', 'POST'])
+@app.route('/listings2', methods=['GET', 'POST'])  # NEW FUNCTION THAT WORKS FOR LISTING A SHOE -kk
 def listings2():
     if request.method == 'POST':
         brand = request.form['brand']
@@ -62,7 +62,7 @@ def listings2():
     shoes = Shoe.query.all()
     return render_template('listings2.html', shoes=shoes)
 
-@app.route('/start_listing')
+@app.route('/start_listing') # NEW FUNCTION THAT WORKS FOR LISTING A SHOE -kk
 def start_listing():
     return render_template('start_listing.html')
 
@@ -123,7 +123,7 @@ def show_user_account():
     else:
         return redirect(url_for('login'))
 
-def save_listing_to_database(title, brand, description, price, image_urls):
+def save_listing_to_database(title, brand, description, price, image_urls): # NOT USING THIS
 
     userid = current_user.id
     user = current_user
@@ -132,7 +132,7 @@ def save_listing_to_database(title, brand, description, price, image_urls):
     db.session.commit()
     return True
 
-@app.route('/seller/listings/new', methods=['GET', 'POST'])
+@app.route('/seller/listings/new', methods=['GET', 'POST']) # NOT USING THIS
 def new_listing():
     if request.method == 'POST':
         # Processes form data and saves new listings to database.
@@ -158,7 +158,7 @@ def new_listing():
 
 
 #THE APP IS RUNNING
-@app.route('/')
+@app.route('/') # UPDATED FUNCTION THAT WORKS FOR LISTING A SHOE -kk
 def index():
     image_url = url_for('static', filename='images/AD.png')
     shoes = Shoe.query.all()
@@ -166,7 +166,7 @@ def index():
                   'description': shoe.description, 'price': shoe.price, 'image': shoe.image} for shoe in shoes]
     return render_template('index.html', shoes=shoe_info, image_url=image_url)
 
-@app.route('/product/<int:product_id>')
+@app.route('/product/<int:product_id>') # NOT USING THIS
 def show_product(product_id):
     product = products.get(product_id)
     return render_template('product.html', product=product)
@@ -294,7 +294,7 @@ def order_overview():
 
 
 
-@app.route('/listings')
+@app.route('/listings') # NOT USING THIS
 def listings():
     return render_template('listings.html')
 
