@@ -35,7 +35,7 @@ We want to make a prototype but demo-able website in which users can utilize all
 
 **Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: Frontend (more in meeting notes)
 
-**Austin Wheeler** - aaw345 - awheeler1456@gmail.com - @OGkoding - CURRENT ROLE: Backend (more in meeting notes)
+**Austin Wheeler** - aaw345 - awheeler1456@gmail.com - @LaBrav0 (ex OGkoding) - CURRENT ROLE: Backend (more in meeting notes)
 
 **Ander Talley** - ajt432 - andertalley@gmail.com - @MaverickDSmith - CURRENT ROLE: Full Stack (more in meeting notes)
 
