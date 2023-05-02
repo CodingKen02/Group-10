@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  h1, h2, form, label {
+    font-family: 'Open Sans', sans-serif;
+  }
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card a {
+    text-decoration: none;
+    color: white;
+}
+
+  .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 500px;
+  background-color: #f2f2f2;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  padding: 20px;
+  margin-top: 35px;
+  margin-bottom:35px;
+  margin-right: 100px;
+}
+  .card img {
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+  }
+  .card h3, .card p {
+    margin: 10px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+  }
+  .card p {
+    font-size: 16px;
+    color: #777;
+  }
+  .card pre {
+    font-size: 14px;
+    color: #888;
+  }
+  .card .price {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    color: #27ce3e;
+    margin: 10px;
+  }
+  .card button {
+    background-color: #27ce3e;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    margin: 20px auto 0;
+    width: 240px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  .card button:hover,
+  .card button:focus {
+    background-color: #24aa39;
+    cursor: pointer;
+    outline: none;
+  }
+  .card button:active {
+    background-color: #1b7f27;
+  }
+</style>
+
+<h1>Search for Shoes</h1>
+<form action="{{ url_for('search') }}" method="get">
+  <label for="brand">Brand:</label>
+  <input type="text" id="brand" name="brand"><br><br>
+  <input type="submit" value="Search">
+</form>
+
+{% if shoes %}
+  <h2>Search Results:</h2>
+  <div class="card-container">
+    {% for shoe in shoes %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='uploads/' + shoe.image) }}" alt="{{ shoe.brand }} {{ shoe.shoetype }}">
+        <h3>{{ shoe.brand }} {{ shoe.shoetype }}</h3>
+        <p>Size: {{ shoe.size }}</p>
+        <p>Condition: {{ shoe.condition }}</p>
+        <p>Description: {{ shoe.description }}</p>
+        <p class="price">Price: ${{ shoe.price }}</p>
+        <a href="payment.html">
+          <button>Add to Cart</button>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No matching items found.</p>
+{% endif %}
+
+{% endblock %}
