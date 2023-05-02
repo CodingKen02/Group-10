@@ -4,16 +4,30 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from models import db, login_manager, User, Shoe, Payment
+import os
 
 app = Flask(__name__, static_folder='static')
+
 app.secret_key = 'your-secret-key'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shoe.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+@app.route('/search')
+def search():
+    brand = request.args.get('brand')
+
+    shoes = Shoe.query.filter(
+        Shoe.brand.ilike(f'%{brand}%'),
+    ).all()
+
+    return render_template('search.html', shoes=shoes)
 
 @app.before_first_request
 def create_all():
@@ -27,6 +41,40 @@ products = {
     5: {'name': 'Classic Slip-On', 'brand': 'Vans', 'price': 60.00},
     6: {'name': 'Superstar', 'brand': 'Adidas', 'price': 80.00}
 }
+
+@app.route('/listings2', methods=['GET', 'POST'])  # NEW FUNCTION THAT WORKS FOR LISTING A SHOE -kk
+def listings2():
+    if request.method == 'POST':
+        brand = request.form['brand']
+        shoetype = request.form['shoetype']
+        size = request.form['size']
+        condition = request.form['condition']
+        description = request.form['description']
+        price = request.form['price']
+        image = request.files['image']
+
+        filename = image.filename
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        shoe = Shoe(
+            brand=brand,
+            shoetype=shoetype,
+            size=size,
+            condition=condition,
+            description=description,
+            price=price,
+            image=filename
+        )
+
+        db.session.add(shoe)
+        db.session.commit()
+
+    shoes = Shoe.query.all()
+    return render_template('listings2.html', shoes=shoes)
+
+@app.route('/start_listing') # NEW FUNCTION THAT WORKS FOR LISTING A SHOE -kk
+def start_listing():
+    return render_template('start_listing.html')
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -85,7 +133,7 @@ def show_user_account():
     else:
         return redirect(url_for('login'))
 
-def save_listing_to_database(title, brand, description, price, image_urls):
+def save_listing_to_database(title, brand, description, price, image_urls): # NOT USING THIS
 
     userid = current_user.id
     user = current_user
@@ -94,7 +142,7 @@ def save_listing_to_database(title, brand, description, price, image_urls):
     db.session.commit()
     return True
 
-@app.route('/seller/listings/new', methods=['GET', 'POST'])
+@app.route('/seller/listings/new', methods=['GET', 'POST']) # NOT USING THIS
 def new_listing():
     if request.method == 'POST':
         # Processes form data and saves new listings to database.
@@ -120,12 +168,15 @@ def new_listing():
 
 
 #THE APP IS RUNNING
-@app.route('/')
+@app.route('/') # UPDATED FUNCTION THAT WORKS FOR LISTING A SHOE -kk
 def index():
     image_url = url_for('static', filename='images/AD.png')
-    return render_template('index.html', image_url=image_url)
+    shoes = Shoe.query.all()
+    shoe_info = [{'id': shoe.id, 'brand': shoe.brand, 'shoetype': shoe.shoetype, 'size': shoe.size, 'condition': shoe.condition,
+                  'description': shoe.description, 'price': shoe.price, 'image': shoe.image} for shoe in shoes]
+    return render_template('index.html', shoes=shoe_info, image_url=image_url)
 
-@app.route('/product/<int:product_id>')
+@app.route('/product/<int:product_id>') # NOT USING THIS
 def show_product(product_id):
     product = products.get(product_id)
     return render_template('product.html', product=product)
@@ -246,9 +297,7 @@ def order_overview():
 
 
 
-
-
-@app.route('/listings')
+@app.route('/listings') # NOT USING THIS
 def listings():
     return render_template('listings.html')
 
@@ -282,7 +331,6 @@ def order_history():
 def user_items():
     return render_template('user_items.html')
 
- 
 @app.route('/base')
 def logo():
     image_url = url_for('static', filename='images/logo.png')
