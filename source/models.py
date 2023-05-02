@@ -23,22 +23,21 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User(name='{self.name}', email='{self.email}')>"
 
- 
-
 class Shoe(db.Model):
     __tablename__ = 'shoes'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    brand = db.Column(db.String(80))
-    price = db.Column(db.Integer)
-    description = db.Column(db.String(1000))
+    brand = db.Column(db.String(50), nullable=False)
+    shoetype = db.Column(db.String(50), nullable=False)
+    size = db.Column(db.Integer, nullable=False)
+    condition = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200))
+    price = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(User, backref='shoes')
 
     def __repr__(self):
-        return f"<Shoe(name='{self.name}', brand='{self.brand}', price={self.price}, user='{self.user}')>"
-
-
+        return f"<Shoe(brand='{self.brand}', shoe='{self.shoetype}', size='{self.size}', condition='{self.condition}', description='{self.description}', price='{self.price}', image='{self.image}', user='{self.user}')>"
 
 class Payment(db.Model):
     __tablename__ = 'payment'
