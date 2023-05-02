@@ -31,9 +31,9 @@ We want to make a prototype but demo-able website in which users can utilize all
 
 **Ehren Achtermann** - eta55 - eta55@msstate.edu - @eta55 - CURRENT ROLE: Backend (more in meeting notes)
 
-**Trey Fullwood** - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: Frontend (more in meeting notes)
+**Trey Fullwood** - rf802 - treyfullwood3@gmail.com - @TreyPilgrim - CURRENT ROLE: Member (more in meeting notes)
 
-**Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: Frontend (more in meeting notes)
+**Kennedy Keyes** - kfk38 - kfk38@msstate.edu - @CodingKen02 - CURRENT ROLE: Full Stack (more in meeting notes)
 
 **Austin Wheeler** - aaw345 - awheeler1456@gmail.com - @LaBrav0 (ex OGkoding) - CURRENT ROLE: Backend (more in meeting notes)
 
