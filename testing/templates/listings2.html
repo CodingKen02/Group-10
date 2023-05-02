@@ -3,8 +3,12 @@
 {% block content %}
 
 <style>
-  h1, form, label {
+  h1, h4, form, label {
     font-family: 'Open Sans', sans-serif;
+  }
+
+  h4 {
+    text-align: center;
   }
   .card-container {
     display: flex;
@@ -88,14 +92,9 @@
     background-color: #1b7f27;
   }
 </style>
-<h1>Shoe Listings</h1>
+<h1>Shoe Listings Below</h1>
 	
-<!-- Search bar -->
-<form method="get">
-  <label for="searchInput">Search for Shoes:</label>
-  <input type="text" id="searchInput" name="search" placeholder="Enter keywords">
-  <input type="submit" value="Search">
-</form>
+<h4>^ Search for the Perfect Pair ^</h4>
 
 <hr> <!--line for site-->
 <div class="card-container">
