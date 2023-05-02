@@ -19,6 +19,16 @@ db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+@app.route('/search')
+def search():
+    brand = request.args.get('brand')
+
+    shoes = Shoe.query.filter(
+        Shoe.brand.ilike(f'%{brand}%'),
+    ).all()
+
+    return render_template('search.html', shoes=shoes)
+
 @app.before_first_request
 def create_all():
     db.create_all()
