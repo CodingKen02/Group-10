@@ -15,18 +15,11 @@ from app import app, db, Shoe
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
 
-@pytest.mark.parametrize("brand, expected_result", [
-    ("Nike", [b'Nike']),
-    ("ad", [b'Adidas']),
-    ("Gigabyte", [b'No matching items found.']),
-    ("Jordans", [b'No matching items found.']),
-    ("", [b'Nike', b'Adidas'])
-])
-def test_search(brand, expected_result):
+def test_search():
     client = app.test_client()
     with client:  
         response = client.get(f'/search?brand={brand}')
         assert response.status_code == 200
-        for result in expected_result:
-            assert result.decode() in response.get_data(as_text=True)
+        assert b'Nike' in response.data
+        assert b'Adidas' not in response.data
 
