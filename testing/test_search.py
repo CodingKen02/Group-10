@@ -18,7 +18,7 @@ from sqlalchemy import event
 def test_search():
     client = app.test_client()
     with client:  
-        response = client.get(f'/search?brand={brand}')
+        response = client.get('/search?brand=Nike')
         assert response.status_code == 200
         assert b'Nike' in response.data
         assert b'Adidas' not in response.data
