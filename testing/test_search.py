@@ -14,17 +14,17 @@ def test_client():
             # Create test shoes
             nike = Shoe(
                 brand='Nike',
-                name='Air Force 1',
+                shoetype='Air Force 1',
                 price=90,
                 description='The Nike Air Force 1 is a classic shoe.',
-                image_file='air_force_1.jpg'
+                image='air_force_1.jpg'
             )
             adidas = Shoe(
                 brand='Adidas',
-                name='Superstar',
+                shoetype='Superstar',
                 price=80,
                 description='The Adidas Superstar is a classic shoe.',
-                image_file='superstar.jpg'
+                image='superstar.jpg'
             )
 
             # Add shoes to database
