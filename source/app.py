@@ -329,11 +329,6 @@ def delete():
     flash('Your account has been successfully deleted.')
     return redirect(url_for('index'))
 
-##@app.route('/delete')
-##def delete():
-        ##logout_user()
-        ##return redirect('/')
-
 @app.route('/submit_order.html')
 def submit_order():
     return render_template('submit_order.html')
