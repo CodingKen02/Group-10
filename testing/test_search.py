@@ -22,7 +22,7 @@ from sqlalchemy import event
     ("Jordans", [b'No matching items found.']),
     ("", [b'Nike', b'Adidas'])
 ])
-def test_search(client, brand, expected_result):
+def test_search(brand, expected_result):
     client = app.test_client()
     with client:  
         response = client.get(f'/search?brand={brand}')
