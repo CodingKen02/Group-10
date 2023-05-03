@@ -12,6 +12,7 @@ sys.path.append("source/instance")
 from source.app import app
 from source.models import *
 from source.instance import *
+from app import app, db, Shoe
 
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
