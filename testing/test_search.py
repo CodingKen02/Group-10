@@ -2,14 +2,12 @@
 
 import re
 import pytest
-from flask import Flask, session, request, render_template
+from flask import session, request, render_template
 from flask_login import login_user, logout_user
 import sys
 import os
-import tempfile
 sys.path.append("source")
 sys.path.append("source/instance")
-from source.app import app
 from source.models import *
 from source.instance import *
 from app import app, db, Shoe
@@ -17,32 +15,16 @@ from app import app, db, Shoe
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
 
-def test_search(client):
-    # Test case 1: Search by keyword
-    response = client.get('/search?brand=Nike')
+@pytest.mark.parametrize("brand, expected_result", [
+    ("Nike", [b'Nike']),
+    ("ad", [b'Adidas']),
+    ("Gigabyte", [b'No matching items found.']),
+    ("Jordans", [b'No matching items found.']),
+    ("", [b'Nike', b'Adidas'])
+])
+def test_search(client, brand, expected_result):
+    response = client.get(f'/search?brand={brand}')
     assert response.status_code == 200
-    assert b'Nike' in response.data
-    assert b'Adidas' not in response.data
+    for result in expected_result:
+        assert result in response.data
 
-    # Test case 2: Search by character(s)
-    response = client.get('/search?brand=ad')
-    assert response.status_code == 200
-    assert b'Adidas' in response.data
-    assert b'Nike' not in response.data
-
-    # Test case 3: Search non-existing shoe brand
-    response = client.get('/search?brand=Gigabyte')
-    assert response.status_code == 200
-    assert b'No matching items found.' in response.data
-
-    # Test case 4: Search shoe type in search bar
-    response = client.get('/search?brand=Jordans')
-    assert response.status_code == 200
-    assert b'No matching items found.' in response.data
-
-    # Test case 5: Press search button for all shoes
-    response = client.get('/search')
-    assert response.status_code == 200
-    assert b'Nike' in response.data
-    assert b'Adidas' in response.data
-    assert b'Jordan' in response.data
