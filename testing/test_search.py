@@ -24,8 +24,9 @@ from sqlalchemy import event
 ])
 def test_search(client, brand, expected_result):
     client = app.test_client()
-    response = client.get(f'/search?brand={brand}')
-    assert response.status_code == 200
-    for result in expected_result:
-        assert result in response.data
+    with client:  
+        response = client.get(f'/search?brand={brand}')
+        assert response.status_code == 200
+        for result in expected_result:
+            assert result in response.data
 
