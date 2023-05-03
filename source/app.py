@@ -308,19 +308,31 @@ def order_overview():
 def listings():
     return render_template('listings.html')
 
-#@app.route('/delete')
-#def delete():
- #   return render_template('delete.html')
-
 @app.route('/delete.html')
 def delete2():
-        logout_user()
         return render_template('delete.html')
 
-@app.route('/delete')
+@app.route('/delete', methods=['POST'])
 def delete():
-        logout_user()
-        return redirect('/')
+    # check if the user has confirmed the account deletion
+    if 'confirm_delete' not in request.form:
+        flash('Please confirm that you want to delete your account.')
+        return redirect(url_for('delete_account'))
+
+    # delete the user's account and associated data from the database
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+    # inform the user that their account has been deleted
+    flash('Your account has been successfully deleted.')
+    return redirect(url_for('index'))
+
+##@app.route('/delete')
+##def delete():
+        ##logout_user()
+        ##return redirect('/')
 
 @app.route('/submit_order.html')
 def submit_order():
