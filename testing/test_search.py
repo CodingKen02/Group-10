@@ -28,5 +28,5 @@ def test_search(brand, expected_result):
         response = client.get(f'/search?brand={brand}')
         assert response.status_code == 200
         for result in expected_result:
-            assert result in response.data
+            assert result.decode() in response.get_data(as_text=True)
 
