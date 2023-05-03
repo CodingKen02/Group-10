@@ -71,7 +71,7 @@ def test_payment():
     client.post('/process_payment', data={'card_number': '5555123456781234', 'expiration_date': '11/26', 'card_name': 'Ander Talley', 'cvc': '123', 'address': '1234 Your Mom Ln, Starkville, MS'})
     assert response.status_code == 302
 
-def test_shoe():
+def test_start_listing():
     # Create a test shoe
     shoe = Shoe(brand='Test Shoe', shoetype='test type', size=11, condition="New", description='This is a test shoe.', price=50, image="test.png", user_id=1)
 
