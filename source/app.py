@@ -29,10 +29,18 @@ def return_order():
 @app.route('/search')
 def search():
     brand = request.args.get('brand')
+    price = request.args.get('price')
+    size = request.args.get('size')
 
-    shoes = Shoe.query.filter(
-        Shoe.brand.ilike(f'%{brand}%'),
-    ).all()
+    query = Shoe.query.filter(Shoe.brand.ilike(f'%{brand}%'))
+
+    if price:
+        query = query.filter(Shoe.price <= price)
+
+    if size:
+        query = query.filter(Shoe.size == size)
+
+    shoes = query.all()
 
     return render_template('search.html', shoes=shoes)
 
