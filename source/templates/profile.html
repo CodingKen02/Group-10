@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<style>
+    h1, p, h3 {
+      font-family: 'Open Sans', sans-serif;
+    }
+</style>
+<head>
+	<title>Profile</title>
+</head>
+<block>
+	<h1 style="text-align: center;">Profile</h1>
+	
+	<h3>Profile Information:</h3>
+  <p>Name: {{ name }}</p>
+	<p>Biography: {{ biography }}</p>
+  <p>Phone Number: {{ phone }}</p>
+</block>
+{% endblock %}
