@@ -9,10 +9,19 @@
     }
 </style>
 <head>
-	<title>Order History</title>
+    <title>Order History</title>
 </head>
-<block>	
-	<h1>Order History</h1>
-	<p>Link transaction db with page, display information for specific user.</p>
+<block>    
+    <h1>Order History</h1>
+    <p>Link transaction db with page, display information for specific user.</p>
+    <form method="POST" action="{{ url_for('return_order') }}">
+        <label for="return_number">Return Number:</label>
+        <input type="text" id="return_number" name="return_number" size="5" required> <br>
+        <br>
+        <label for="reason">Reason for Return:</label>
+        <textarea id="reason" name="reason" required></textarea>
+        <br><br>
+        <input type="submit" value="Return Order">
+    </form>
 </block>
 {% endblock %}
