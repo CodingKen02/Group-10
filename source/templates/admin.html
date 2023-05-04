@@ -3,6 +3,11 @@
 {% block title %}Admin Page{% endblock %}
 
 {% block content %}
+<style>
+  h1, p, h2, table, li, label {
+    font-family: 'Open Sans', sans-serif;
+  }
+</style>
   {% if current_user.is_authenticated and current_user.is_admin %}
     {% with messages = get_flashed_messages() %}
     {% if messages %}
