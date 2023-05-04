@@ -30,6 +30,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create virtual environment
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+      - run:
           name: Install dependencies
           command: |
             python3 -m venv venv
