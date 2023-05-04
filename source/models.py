@@ -43,6 +43,12 @@ class Shoe(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(User, backref='shoes')
 
+    def delete_shoe(self, id):
+        shoe = Shoe.query.get(id)
+        db.session.delete(shoe)
+        db.session.commit()
+
+
     def __repr__(self):
         return f"<Shoe(brand='{self.brand}', shoe='{self.shoetype}', size='{self.size}', condition='{self.condition}', description='{self.description}', price='{self.price}', image='{self.image}', user='{self.user}')>"
 

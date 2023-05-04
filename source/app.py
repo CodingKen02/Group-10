@@ -3,10 +3,11 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import re
-from flask import Flask, session, request, render_template, flash, redirect, url_for
+from flask import Flask, session, request, render_template, flash, redirect, url_for, abort, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
+from flask_migrate import Migrate
 from models import db, login_manager, User, Shoe, Payment
 import os
 
@@ -24,6 +25,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+migrate = Migrate(app, db)
 
 @app.route('/return_order', methods=['POST'])
 def return_order():
@@ -125,9 +128,60 @@ def register():
         return redirect('/login')
     return render_template('register.html')
 
+@app.route('/admin/users')
+@login_required
+def admin_users():
+    if not current_user.is_admin:
+        abort(403)  # HTTP Forbidden error
+
+    get_flashed_messages()
+    users = User.query.all()
+    listings = Shoe.query.all()
+    return render_template('admin.html', users=users, listings=listings)
+
+@app.route('/admin/users/ban/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def ban_user(user_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    user = User.query.get(user_id)
+    if user:
+        if request.method == 'POST':
+            # Delete the user from the database
+            db.session.delete(user)
+            db.session.commit()
+            flash('User has been banned.', 'success')
+            return redirect(url_for('admin_users'))
+
+
+    else:
+        abort(404)
+
+@app.route('/admin/shoes/delete/<int:shoe_id>', methods=['POST'])
+@login_required
+def delete_shoe(shoe_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    shoe = Shoe.query.get(shoe_id)
+    if shoe:
+        if request.method == 'POST':
+            # Delete the shoe from the database
+            db.session.delete(shoe)
+            db.session.commit()
+            flash('Shoe has been deleted.', 'success')
+            return redirect(url_for('admin_shoes'))
+    else:
+        abort(404)
+
 @app.route('/logoutconfirm')
 def logoutconfirm():
     return render_template('logout.html')
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 @app.route('/logout.html')
 def logout2():
@@ -369,7 +423,24 @@ def logo():
     image_url = url_for('static', filename='images/logo.png')
     return render_template('base.html', image_url=image_url)
 
+
+def init_admin():
+    admin_email = 'an@admin.com'
+    admin_username = 'an'
+    admin_password = 'password'
+    admin = User(email=admin_email, username=admin_username, is_admin=1)
+    admin.set_password(admin_password)
+    db.session.add(admin)
+    db.session.commit()
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
+        # Commit the changes to the database
+        #db.session.query(User).delete()
+        #db.session.commit()
+        #init_admin()
+
+        
     app.run(debug=True)
