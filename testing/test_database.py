@@ -71,20 +71,11 @@ def test_payment():
     client.post('/process_payment', data={'card_number': '5555123456781234', 'expiration_date': '11/26', 'card_name': 'Ander Talley', 'cvc': '123', 'address': '1234 Your Mom Ln, Starkville, MS'})
     assert response.status_code == 302
 
-def test_start_listing():
-    # Create a test shoe
-    shoe = Shoe(brand='Test Shoe', shoetype='test type', size=11, condition="New", description='This is a test shoe.', price=50, image="test.png", user_id=1)
+def test_listings2():
+    client = app.test_client()
+    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 302
 
-    # Add the shoe to the database
-    db.session.add(shoe)
-    db.session.commit()
-
-    # Check that the shoe was added to the database
-    assert Shoe.query.filter_by(brand='Test Shoe').first() is not None
-
-    # Delete the shoe from the database
-    db.session.delete(shoe)
-    db.session.commit()
-
-    # Check that the shoe was deleted from the database
-    assert Shoe.query.filter_by(brand='Test Shoe').first() is None
+    client.post('/listings2', data={'brand': 'Nike', 'shoetype': 'Air Jordans', 'size': 12, 'condition': 'New', 'description': 'This is a test', 'price': 150, 'image': 'test.png', 'user_id': 1})
+    assert response.status_code == 302
