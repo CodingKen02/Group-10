@@ -43,6 +43,17 @@ jobs:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
           command: pytest
+      - run:
+          name: Run Flake8
+          command: |
+            flake8 --ignore=E501 .
+      - run:
+          name: Run tests
+          command: |
+            pytest --cov=myapp tests/
+          environment:
+            FLASK_APP: app
+            FLASK_ENV: testing
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
