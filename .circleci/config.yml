@@ -40,9 +40,10 @@ jobs:
           command: pip install pytest
       - run:
           name: Run tests
-          source venv/bin/activate
           # This assumes pytest is installed via the install-package step above
-          command: pytest
+          command:
+          source venv/bin/activate
+          pytest
       - run:
           name: Run static analysis
           command: |
