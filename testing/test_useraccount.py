@@ -78,21 +78,19 @@ def test_logout():
     assert response.status_code == 302
 
 
-## Delete Account:
-## Note: Does not currently delete account. It Logs user out and brings user to Home. UPDATE: Ehren made a new delete function, but this is spewing an error with it.
-#def test_delete():
-    #client = app.test_client()
-    #client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
-    #response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
-    #assert response.status_code == 302
+def test_delete():
+    client = app.test_client()
+    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 302
 
-    #with client:
-        #response = client.get('/account')
-        #assert response.status_code == 200
+    with client:
+        response = client.get('/account')
+        assert response.status_code == 200
     
-    # user selects delete account, and should be redirected to home
-    #response = client.get('/delete')
-    #assert response.status_code == 302
+    #user selects delete account, and should be redirected to home
+    response = client.get('/delete')
+    assert response.status_code == 302
 
 
 def test_order_history():
@@ -109,7 +107,7 @@ def test_order_history():
     response = client.get('/order_history')
     assert response.status_code == 200
 
-def test_items_for_sale():
+def test_profile():
     client = app.test_client()
     client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
     response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
@@ -120,7 +118,7 @@ def test_items_for_sale():
         assert response.status_code == 200
 
     # user selects Items for Sale, gets sent to their items page
-    response = client.get('/user_items')
+    response = client.get('/profile')
     assert response.status_code == 200
 
 ## Tests to see if the User can get to the Edit Account Details page
