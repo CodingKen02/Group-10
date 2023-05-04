@@ -43,7 +43,7 @@ jobs:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
           command: pytest
-      -run:
+      - run:
           name: Install Flake8
           command: pip install flake8
       - run:
