@@ -46,12 +46,11 @@ def test_go_to_user_account_page():
 
 ## Our Database Tables that currently function are User and Payment, so lets test that.
 
-## Since user is already existing in the database, user gets returned to the registration page. UPDATE: test function is failing possibly due to new database/data for Sprint 4.
-#def test_user_registration():
-    #client = app.test_client()
-    #response = client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
-    #assert response.status_code == 200
-    #assert response.data == b'Email already Present'
+## New user to our database. Redirects to login after registration.
+def test_user_registration():
+    client = app.test_client()
+    response = client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    assert response.status_code == 302
 
 ## If User logins correctly, then the user should be redirected to the home page.
 def test_user_login():
@@ -72,3 +71,11 @@ def test_payment():
     client.post('/process_payment', data={'card_number': '5555123456781234', 'expiration_date': '11/26', 'card_name': 'Ander Talley', 'cvc': '123', 'address': '1234 Your Mom Ln, Starkville, MS'})
     assert response.status_code == 302
 
+def test_listings2():
+    client = app.test_client()
+    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 302
+
+    client.post('/listings2', data={'brand': 'Nike', 'shoetype': 'Air Jordans', 'size': 12, 'condition': 'New', 'description': 'This is a test', 'price': 150, 'image': 'test.png', 'user_id': 1})
+    assert response.status_code == 302

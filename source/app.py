@@ -25,6 +25,13 @@ db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+@app.route('/return_order', methods=['POST'])
+def return_order():
+    return_number = request.form['return_number']
+    reason = request.form['reason']
+    # You can implement your return order logic here, such as saving the return request to a database
+    return render_template('return_success.html')
+
 @app.route('/search')
 def search():
     brand = request.args.get('brand')
@@ -307,19 +314,26 @@ def order_overview():
 def listings():
     return render_template('listings.html')
 
-#@app.route('/delete')
-#def delete():
- #   return render_template('delete.html')
-
 @app.route('/delete.html')
 def delete2():
-        logout_user()
         return render_template('delete.html')
 
-@app.route('/delete')
+@app.route('/delete', methods=['POST'])
 def delete():
-        logout_user()
-        return redirect('/')
+    # check if the user has confirmed the account deletion
+    if 'confirm_delete' not in request.form:
+        flash('Please confirm that you want to delete your account.')
+        return redirect(url_for('delete_account'))
+
+    # delete the user's account and associated data from the database
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+    # inform the user that their account has been deleted
+    flash('Your account has been successfully deleted.')
+    return redirect(url_for('index'))
 
 @app.route('/submit_order.html')
 def submit_order():
@@ -333,9 +347,22 @@ def edit_account():
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items')
-def user_items():
-    return render_template('user_items.html')
+@app.route("/success", methods=["POST"])
+def success():
+    name = request.form["name"]
+    session['name'] = name
+    biography = request.form["biography"]
+    session['biography'] = biography
+    phone = request.form["phone"]
+    session['phone'] = phone
+    return redirect("/profile")
+
+@app.route("/profile")
+def profile():
+    name = session.get('name', '')
+    biography = session.get('biography', '')
+    phone = session.get('phone', '')
+    return render_template("profile.html", name=name, biography=biography, phone=phone)
 
 @app.route('/base')
 def logo():

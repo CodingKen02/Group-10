@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager
+from flask_login import current_user
  
 login_manager = LoginManager()
 db = SQLAlchemy()
@@ -21,6 +22,11 @@ class User(UserMixin, db.Model):
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
     
+    def delete_user(self, user_id):
+        user = User.query.get(user_id)
+        db.session.delete(user)
+        db.session.commit()
+
     def __repr__(self):
         return f"<User(name='{self.username}', email='{self.email}')>"
 
