@@ -27,6 +27,9 @@ jobs:
     # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
+   static_analysis:
+    docker:
+      - image: circleci/python:3.8.2
     steps:
       - checkout
       - python/install-packages:
@@ -43,6 +46,17 @@ jobs:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
           command: pytest
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: Run static analysis
+          command: |
+            source venv/bin/activate
+            pylint app.py
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
