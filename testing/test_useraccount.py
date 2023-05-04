@@ -107,6 +107,20 @@ def test_order_history():
     # user selects order history, gets sent to order_history.html
     response = client.get('/order_history')
     assert response.status_code == 200
+    
+def test_start_listing():
+    client = app.test_client()
+    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
+    assert response.status_code == 302
+
+    with client:
+        response = client.get('/account')
+        assert response.status_code == 200
+    
+    # user selects make a listing, gets sent to start_listing.html
+    response = client.get('/start_listing')
+    assert response.status_code == 200
 
 def test_profile():
     client = app.test_client()
@@ -118,7 +132,7 @@ def test_profile():
         response = client.get('/account')
         assert response.status_code == 200
 
-    # user selects Items for Sale, gets sent to their items page
+    # user selects profile, gets sent to their profile
     response = client.get('/profile')
     assert response.status_code == 200
 
