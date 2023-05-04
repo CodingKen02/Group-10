@@ -69,6 +69,11 @@
             <br><p>Username: {{ current_user.username }}</p>
             <p>Email: {{ current_user.email }}</p>
             <p>UserID: {{ current_user.id }}</p>
+            {% if current_user.is_admin == 1 %}
+            <li><a href="{{url_for('admin_users')}}">Admin Panel</a></li>
+            {% else %}
+            <p>You are not admin.</p>
+            {% endif %}
     
     <!-- Other sections (e.g. order history, items for sale) would go here -->
     

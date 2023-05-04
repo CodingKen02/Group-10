@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Page{% endblock %}
+
+{% block content %}
+  {% if current_user.is_authenticated and current_user.is_admin %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    {% endif %}
+    {% endwith %}
+    <h2>Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.username }}</td>
+            {% if user.is_admin != 1 %}
+            <td><form action="{{ url_for('ban_user', user_id=user.id) }}" method="POST">
+                <button type="submit">Ban</button>
+              </form>
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h2>Shoes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Brand</th>
+          <th>Shoe Type</th>
+          <th>Size</th>
+          <th>Condition</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Image</th>
+          <th>User</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shoe in listings %}
+          <tr>
+            <td>{{ shoe.id }}</td>
+            <td>{{ shoe.brand }}</td>
+            <td>{{ shoe.shoetype }}</td>
+            <td>{{ shoe.size }}</td>
+            <td>{{ shoe.condition }}</td>
+            <td>{{ shoe.description }}</td>
+            <td>{{ shoe.price }}</td>
+            <td>{{ shoe.image }}</td>
+            <td>{{ shoe.user.username }}</td>
+            <td><form action="{{ url_for('delete_shoe', shoe_id=shoe.id) }}" method="POST">
+                <button type="submit">Delete</button>
+              </form>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You must be logged in as an admin user to access this page.</p>
+  {% endif %}
+{% endblock %}

@@ -80,7 +80,7 @@ def test_logout():
 
 def test_delete():
     client = app.test_client()
-    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
+    client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley', 'is_admin': '0'})
     response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
     assert response.status_code == 302
 
