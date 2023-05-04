@@ -3,7 +3,7 @@ from flask import Flask, session, request, render_template, flash, redirect, url
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
-from models import db, login_manager, User, Shoe, Payment
+from .models import db, login_manager, User, Shoe, Payment
 import os
 
 app = Flask(__name__, static_folder='static')
@@ -18,6 +18,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+@app.route('/return_order', methods=['POST'])
+def return_order():
+    return_number = request.form['return_number']
+    reason = request.form['reason']
+    # You can implement your return order logic here, such as saving the return request to a database
+    return render_template('return_success.html')
 
 @app.route('/search')
 def search():
@@ -341,9 +348,22 @@ def edit_account():
 def order_history():
     return render_template('order_history.html')
 
-@app.route('/user_items')
-def user_items():
-    return render_template('user_items.html')
+@app.route("/success", methods=["POST"])
+def success():
+    name = request.form["name"]
+    session['name'] = name
+    biography = request.form["biography"]
+    session['biography'] = biography
+    phone = request.form["phone"]
+    session['phone'] = phone
+    return redirect("/profile")
+
+@app.route("/profile")
+def profile():
+    name = session.get('name', '')
+    biography = session.get('biography', '')
+    phone = session.get('phone', '')
+    return render_template("profile.html", name=name, biography=biography, phone=phone)
 
 @app.route('/base')
 def logo():
