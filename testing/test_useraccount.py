@@ -78,7 +78,7 @@ def test_logout():
     assert response.status_code == 302
 
 
-def test_delete(): #FIX
+def test_delete():
     client = app.test_client()
     client.post('register.html', data={'email': 'andertalley@gmail.com', 'password': '1234', 'username': 'andertalley'})
     response = client.post('/login', data={'email': 'andertalley@gmail.com', 'password': '1234'})
@@ -88,9 +88,10 @@ def test_delete(): #FIX
         response = client.get('/account')
         assert response.status_code == 200
     
-    #user selects delete account, and should be redirected to home
-    response = client.get('/delete')
-    assert response.status_code == 405
+    # user confirms account deletion and should be redirected to home
+    with client:
+        response = client.post('/delete', data={'confirm_delete': True})
+        assert response.status_code == 302
 
 
 def test_order_history():
