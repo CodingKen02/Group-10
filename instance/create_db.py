@@ -36,12 +36,30 @@ c.execute('''CREATE TABLE IF NOT EXISTS payment_cards
               user_id INTEGER,
               FOREIGN KEY (user_id) REFERENCES users(id))''')
 
+# Create a table for profiles
+c.execute('''CREATE TABLE IF NOT EXISTS profiles
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+              name TEXT,
+              bio TEXT,
+              phone TEXT,
+              user_id INTEGER,
+              FOREIGN KEY (user_id) REFERENCES users(id))''')
+
 # Create an initial admin user
 admin_password = "password"
 admin_password_hash = generate_password_hash(admin_password)
 c.execute('''INSERT INTO users (email, username, password_hash, is_admin)
              VALUES (?, ?, ?, ?)''', ("an@admin.com", "an", admin_password_hash, 1))
 
+# Insert a profile for the admin user
+c.execute('''INSERT INTO profiles (name, bio, phone, user_id)
+             VALUES (?, ?, ?, ?)''', ("Admin User", "I'm the admin user", "123-456-7890", 1))
+
+for i in range(50):
+    c.execute('''INSERT INTO profiles (name, bio, phone, user_id)
+                 VALUES (?, ?, ?, ?)''', ("New User", "I'm a new user", "123-456-7890", i+2))
+
 conn.commit()
 conn.close()
+
 
