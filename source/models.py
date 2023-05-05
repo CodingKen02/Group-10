@@ -64,6 +64,19 @@ class Payment(db.Model):
     def __repr__(self):
         return f"<Card(card_number='{self.card_number}', exp_date='{self.exp_date}', card_name='{self.card_name}', cvc='{self.cvc}', address='{self.address}')>"
 
+# Define the Profile class
+class Profile(db.Model):
+    __tablename__ = 'profiles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    bio = db.Column(db.String(200))
+    phone = db.Column(db.String(20)) # Add a new phone column
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', backref='profile')
+
+    def __repr__(self):
+        return f"<Profile(name='{self.name}', bio='{self.bio}', phone='{self.phone}', user='{self.user}')>"
+
  
 @login_manager.user_loader
 def load_user(id):
