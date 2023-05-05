@@ -4,7 +4,7 @@
 
 {% block content %}
 <style>
-    h1 {
+    h1, p, button {
       font-family: 'Open Sans', sans-serif;
     }
 </style>
@@ -16,9 +16,9 @@
   <form method="post" action="{{ url_for('delete') }}">
     <label>
       <input type="checkbox" name="confirm_delete" required>
-      I confirm that I want to delete my account.
+	    <p>I confirm that I want to delete my account.</p>
     </label>
-    <br>
+    <br><br>
     <button type="submit">Delete Account</button>
   </form>
 </block>
