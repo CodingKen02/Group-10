@@ -1,5 +1,6 @@
 import sys
 import os
+import sqlite3
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import re
@@ -8,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
 from flask_migrate import Migrate
-from models import db, login_manager, User, Shoe, Payment
+from models import db, login_manager, User, Shoe, Payment, Profile
 import os
 
 
@@ -87,7 +88,9 @@ def listings2():
             condition=condition,
             description=description,
             price=price,
-            image=filename
+            image=filename,
+            user_id=current_user.id  # add user_id here
+
         )
 
         db.session.add(shoe)
@@ -96,10 +99,61 @@ def listings2():
     shoes = Shoe.query.all()
     return render_template('listings2.html', shoes=shoes)
 
+@app.route('/my_shoes', methods=['GET'])
+@login_required  # assuming you have a login system implemented
+def my_shoes():
+    user_id = current_user.id
+    user_shoes = Shoe.query.filter_by(user_id=current_user.id).all()
+    total_price = sum([shoe.price for shoe in user_shoes])
+    total_quantity = len(user_shoes)
+    return render_template('my_shoes.html', shoes=user_shoes, total_price=total_price, total_quantity=total_quantity)
+
+@app.route('/user_delete_shoe/<int:id>', methods=['POST'])
+@login_required
+def user_delete_shoe(id):
+    shoe = Shoe.query.get_or_404(id)
+    if shoe.user_id != current_user.id:
+        abort(403)  # only the shoe owner can delete the shoe
+    db.session.delete(shoe)
+    db.session.commit()
+    flash('The shoe has been deleted.')
+    return redirect(url_for('my_shoes'))
+
+
 @app.route('/start_listing') # NEW FUNCTION THAT WORKS FOR LISTING A SHOE -kk
 def start_listing():
     return render_template('start_listing.html')
 
+# get the absolute path of the database file
+db_path = os.path.join(os.path.dirname(__file__), 'instance', 'shoe.db')
+
+@app.route("/success", methods=["POST"])
+@login_required
+def success():
+    name = request.form["name"]
+    biography = request.form["biography"]
+    phone = request.form["phone"]
+    user_id = current_user.id
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    c.execute('''UPDATE profiles SET name = ?, bio = ?, phone = ? WHERE user_id = ?''', (name, biography, phone, user_id))
+    conn.commit()
+    conn.close()
+    return redirect("/profile")
+
+@app.route("/profile")
+@login_required
+def profile():
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    user_id = current_user.id
+    c.execute('''SELECT name, bio, phone FROM profiles WHERE user_id = ?''', (user_id,))
+    row = c.fetchone()
+    conn.close()
+    name = row[0] if row is not None else ""
+    biography = row[1] if row is not None else ""
+    phone = row[2] if row is not None else ""
+    return render_template("profile.html", name=name, biography=biography, phone=phone)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -409,22 +463,6 @@ def edit_account():
 def order_history():
     return render_template('order_history.html')
 
-@app.route("/success", methods=["POST"])
-def success():
-    name = request.form["name"]
-    session['name'] = name
-    biography = request.form["biography"]
-    session['biography'] = biography
-    phone = request.form["phone"]
-    session['phone'] = phone
-    return redirect("/profile")
-
-@app.route("/profile")
-def profile():
-    name = session.get('name', '')
-    biography = session.get('biography', '')
-    phone = session.get('phone', '')
-    return render_template("profile.html", name=name, biography=biography, phone=phone)
 
 @app.route('/base')
 def logo():
