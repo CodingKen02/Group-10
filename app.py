@@ -1,10 +1,17 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import re
-from flask import Flask, session, request, render_template, flash, redirect, url_for
+from flask import Flask, session, request, render_template, flash, redirect, url_for, abort, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, LoginManager, UserMixin, login_required, logout_user
+from flask_migrate import Migrate
 from models import db, login_manager, User, Shoe, Payment
 import os
+
+
 
 app = Flask(__name__, static_folder='static')
 
@@ -18,6 +25,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+migrate = Migrate(app, db)
 
 @app.route('/return_order', methods=['POST'])
 def return_order():
@@ -127,9 +136,60 @@ def register():
         return redirect('/login')
     return render_template('register.html')
 
+@app.route('/admin/users')
+@login_required
+def admin_users():
+    if not current_user.is_admin:
+        abort(403)  # HTTP Forbidden error
+
+    get_flashed_messages()
+    users = User.query.all()
+    listings = Shoe.query.all()
+    return render_template('admin.html', users=users, listings=listings)
+
+@app.route('/admin/users/ban/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def ban_user(user_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    user = User.query.get(user_id)
+    if user:
+        if request.method == 'POST':
+            # Delete the user from the database
+            db.session.delete(user)
+            db.session.commit()
+            flash('User has been banned.', 'success')
+            return redirect(url_for('admin_users'))
+
+
+    else:
+        abort(404)
+
+@app.route('/admin/shoes/delete/<int:shoe_id>', methods=['POST'])
+@login_required
+def delete_shoe(shoe_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    shoe = Shoe.query.get(shoe_id)
+    if shoe:
+        if request.method == 'POST':
+            # Delete the shoe from the database
+            db.session.delete(shoe)
+            db.session.commit()
+            flash('Shoe has been deleted.', 'success')
+            return redirect(url_for('admin_shoes'))
+    else:
+        abort(404)
+
 @app.route('/logoutconfirm')
 def logoutconfirm():
     return render_template('logout.html')
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 @app.route('/logout.html')
 def logout2():
@@ -247,7 +307,8 @@ def process_payment():
     cvc = request.form['cvc']
     address = request.form['shipping_info']
 #//  $ = active shell environment
-    # Validate card number
+      # Validate card number
+    card_type = None 
     if not re.match(r'^\d{16}$', card_number): #User is only allowed to enter 16 digits as the card number
         return 'Order Confirmed. Thank you for your purchase!'
 
@@ -263,26 +324,18 @@ def process_payment():
     if not re.match(r'^\d{3}$', cvc):
         return 'Invalid CVC code'
 
+    if card_type is None:
+         return 'Invalid card information. Please try again.'
     #Validate card type. I know the credentials look a bit complicated let me explain. 
     #Pretty much each parameter will validate the card type based on the first 4 digits in Layman's terms. 
     #The only accepted card types are Visa, Discover, AE, and Discover. We should avoid bank routing for the time being. 
     #We want to avoid encryption protocols which would make this unnecsarily complicated.
-    card_type = None
-    if re.match(r'^4', card_number):
-        card_type = 'Visa'
-    elif re.match(r'^5[1-5]', card_number):
-        card_type = 'MasterCard'
-    elif re.match(r'^3[47]', card_number):
-        card_type = 'American Express'
-    elif re.match(r'^6(?:011|5)', card_number):
-        card_type = 'Discover'
 
-    # If the card type cannot be determined, return an error message
-    if card_type is None:
-        return 'Invalid card type'
 
     id = current_user.id
+    print(id)
     card = Payment(id = id, card_number = card_number, exp_date = expiration_date, card_name = card_name, cvc = cvc, address = address)
+    print(card)
     db.session.add(card)
     db.session.commit()
     # Payment processing would go here, however, we will just skip over this. It is not necessary for Sprint 3
@@ -378,7 +431,24 @@ def logo():
     image_url = url_for('static', filename='images/logo.png')
     return render_template('base.html', image_url=image_url)
 
+
+def init_admin():
+    admin_email = 'an@admin.com'
+    admin_username = 'an'
+    admin_password = 'password'
+    admin = User(email=admin_email, username=admin_username, is_admin=1)
+    admin.set_password(admin_password)
+    db.session.add(admin)
+    db.session.commit()
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
+        # Commit the changes to the database
+        #db.session.query(User).delete()
+        #db.session.commit()
+        #init_admin()
+
+        
     app.run(debug=True)
