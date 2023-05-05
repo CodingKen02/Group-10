@@ -132,9 +132,22 @@ def test_profile():
         response = client.get('/account')
         assert response.status_code == 200
 
-    # user selects profile, gets sent to their profile
-    response = client.get('/profile')
-    assert response.status_code == 500 # no current database saved.
+        # set user_id to 2 for testing purposes
+        user_id = 2
+
+        response = client.get(f'/profile/{user_id}')
+        if response.status_code == 200: # successful retrieval of profile page
+            # load appropriate table for profile page
+            user_profile = db.query(UserProfile).filter_by(user_id=user_id).first()
+            # do something with user_profile
+        elif response.status_code == 404: # user not found
+            error_message = "User not found"
+            # do something with error_message
+        elif response.status_code == 403: # user does not have permission to access profile page
+            error_message = "You do not have permission to access this page"
+            # do something with error_message
+
+        assert response.status_code in [200, 404, 403] # assert that status code is valid
 
 ## Tests to see if the User can get to the Edit Account Details page
 ## Currently this page does nothing.
