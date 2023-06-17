@@ -3,7 +3,7 @@
 ## Desc:
 
 We are making an E-Commerce site designed to let users buy and sell shoes. The website's name is SneakerHeadz.
-https://sneakerheadz.herokuapp.com/
+(The website is currently down for reinnovation.) https://sneakerheadz.herokuapp.com/
 
 ## Objective:
 
